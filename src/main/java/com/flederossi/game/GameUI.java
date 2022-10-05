@@ -59,7 +59,7 @@ public class GameUI {
                         if (firstX == x && firstY == y && !firstClick){
                             paintEvent.gc.setBackground(GameUI.this.display.getSystemColor(SWT.COLOR_RED));
                         }else {
-                            paintEvent.gc.setBackground(GameUI.this.colors[board[x][y]]);
+                            paintEvent.gc.setBackground(GameUI.this.colors[board[y][x]]);
                         }
                         paintEvent.gc.setForeground(GameUI.this.colors[2]);
                         int size = GameUI.size;

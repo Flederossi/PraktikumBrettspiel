@@ -31,7 +31,7 @@ public class Game {
 
     // Get the player on the target field of a move
     int getPlayerTargetField(Move move, int[][] board){
-        return board[move.x + move.shiftX][move.y + move.shiftY];
+        return board[move.y + move.shiftY][move.x + move.shiftX];
     }
 
     // Check if a move is legal
@@ -39,7 +39,7 @@ public class Game {
         // Check if move is diagonal
         if (move.shiftX == 0 ^ move.shiftY == 0) {
             // Check if move is from the right player to the right field
-            return ((move.player == 1 && getPlayerTargetField(move, board) == 0) || (move.player == 2 && getPlayerTargetField(move, board) == 1)) && (board[move.x][move.y] == move.player) && Math.abs(move.shiftX) < 2 && Math.abs(move.shiftY) < 2;
+            return ((move.player == 1 && getPlayerTargetField(move, board) == 0) || (move.player == 2 && getPlayerTargetField(move, board) == 1)) && (board[move.y][move.x] == move.player) && Math.abs(move.shiftX) < 2 && Math.abs(move.shiftY) < 2;
         }else{
             return false;
         }
@@ -47,8 +47,8 @@ public class Game {
 
     // Apply a move to the current board
     int[][] applyMoveToBoard(Move move, int[][] board){
-        board[move.x][move.y] = 0;
-        board[move.x + move.shiftX][move.y + move.shiftY] = move.player;
+        board[move.y][move.x] = 0;
+        board[move.y + move.shiftY][move.x + move.shiftX] = move.player;
         return board;
     }
 

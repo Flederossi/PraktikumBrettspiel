@@ -13,7 +13,7 @@ public class WinLogic {
         int i = 0;
         for (int y = 0; y < 5; y++){
             for (int x = 0; x < 5; x++){
-                if (board[x][y] == 2 && i <= 2){
+                if (board[y][x] == 2 && i <= 2){
                     this.posBlack[0][i] = x;
                     this.posBlack[1][i] = y;
                     i++;
@@ -35,7 +35,7 @@ public class WinLogic {
     }
 
     boolean checkNeighbourFieldsEmpty(int x, int y, int[][] board){
-        return (y <= 0 || board[x][y - 1] == 0) && (y >= 4 || board[x][y + 1] == 0) && (x <= 0 || board[x - 1][y] == 0) && (x >= 4 || board[x + 1][y] == 0);
+        return (y <= 0 || board[y - 1][x] == 0) && (y >= 4 || board[y + 1][x] == 0) && (x <= 0 || board[y][x - 1] == 0) && (x >= 4 || board[y][x + 1] == 0);
     }
 
     public int checkWon(int[][] board){
@@ -51,7 +51,7 @@ public class WinLogic {
             res = 2;
             for (int y = 0; y < 5; y++){
                 for (int x = 0; x < 5; x++){
-                    if (board[x][y] == 2){
+                    if (board[y][x] == 2){
                         if (!checkNeighbourFieldsEmpty(x, y, board)){
                             res = 0;
                         }

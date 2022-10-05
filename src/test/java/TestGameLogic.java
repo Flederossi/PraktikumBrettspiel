@@ -59,11 +59,11 @@ public class TestGameLogic {
                 }
         };
         Move[] testCasesMove = {
-                new Move(2, 1, 0, 0, 4),
-                new Move(2, 1, 0, 2, 2),
-                new Move(1, 0, 1, 0, 2),
-                new Move(1, -1, 0, 2, 2),
-                new Move(2, 0, -2, 3, 3)
+                new Move(2, 0, 1, 4, 0),
+                new Move(2, 0, 1, 2, 2),
+                new Move(1, 1, 0, 2, 0),
+                new Move(1, 0, -1, 2, 2),
+                new Move(2, -2, 0, 3, 3)
         };
 
         boolean[] expected = {true, false, true, false, false};
