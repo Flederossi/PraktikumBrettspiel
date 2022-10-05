@@ -7,14 +7,12 @@ public class Game {
     GameUI ui;
     WinLogic winLogic;
 
-    //TEST
-
     int[][] board;
 
     int currentPlayer, firstX, firstY;
     boolean firstClick, gameEnded;
 
-    Game(int[][] boardInit){
+    public Game(int[][] boardInit){
         this.board = boardInit;
         this.currentPlayer = 2;
         this.firstClick = this.gameEnded = false;
@@ -37,7 +35,7 @@ public class Game {
     }
 
     // Check if a move is legal
-    boolean checkLegalMove(Move move, int[][] board){
+    public boolean checkLegalMove(Move move, int[][] board){
         // Check if move is diagonal
         if (move.shiftX == 0 ^ move.shiftY == 0) {
             // Check if move is from the right player to the right field

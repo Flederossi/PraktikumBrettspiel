@@ -3,11 +3,11 @@ package com.flederossi.game;
 public class WinLogic {
     int[][] posBlack;
 
-    WinLogic(int[][] board){
+    public WinLogic(int[][] board){
         reloadPosBlack(board);
     }
 
-    void reloadPosBlack(int[][] board){
+    public void reloadPosBlack(int[][] board){
         this.posBlack = new int[2][3];
 
         int i = 0;
@@ -38,7 +38,7 @@ public class WinLogic {
         return (y <= 0 || board[x][y - 1] == 0) && (y >= 4 || board[x][y + 1] == 0) && (x <= 0 || board[x - 1][y] == 0) && (x >= 4 || board[x + 1][y] == 0);
     }
 
-    int checkWon(int[][] board){
+    public int checkWon(int[][] board){
         int res = 1;
 
         // Check win white
