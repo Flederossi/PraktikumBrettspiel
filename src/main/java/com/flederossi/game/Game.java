@@ -7,6 +7,8 @@ public class Game {
     GameUI ui;
     WinLogic winLogic;
 
+    //TEST
+
     int[][] board;
 
     int currentPlayer, firstX, firstY;
