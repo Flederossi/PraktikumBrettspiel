@@ -7,13 +7,13 @@ public class Game {
     GameUI ui;
     WinLogic winLogic;
 
-    int[][] board;
+    int[][] board, boardInit;
 
     int currentPlayer, firstX, firstY;
     boolean firstClick, gameEnded;
 
     public Game(int[][] boardInit){
-        this.board = boardInit;
+        this.board = this.boardInit = boardInit;
         this.currentPlayer = 2;
         this.firstClick = this.gameEnded = false;
         this.firstX = this.firstY = -1;
