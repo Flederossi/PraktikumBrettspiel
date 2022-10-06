@@ -1,5 +1,6 @@
 package com.flederossi.game;
 
+import com.flederossi.interfaces.GUI;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.MouseListener;
 import org.eclipse.swt.events.PaintEvent;
@@ -14,7 +15,7 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 
-public class GameUI implements GUI{
+public class GameUI implements GUI {
     private final Display display;
     private final Shell shell;
     private final Canvas view;

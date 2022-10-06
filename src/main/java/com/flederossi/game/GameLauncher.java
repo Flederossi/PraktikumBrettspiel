@@ -1,5 +1,7 @@
 package com.flederossi.game;
 
+import com.flederossi.interfaces.GUI;
+
 public class GameLauncher {
     public static void main(String[] args){
         int[][] board = {
@@ -11,7 +13,7 @@ public class GameLauncher {
         };
 
         GUI ui = new GameUI();
-        Game game = new Game(board, ui);
+        Game game = new GameAgainstOtherPlayer(board, ui);
         game.start();
     }
 }

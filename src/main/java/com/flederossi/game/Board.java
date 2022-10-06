@@ -1,7 +1,7 @@
 package com.flederossi.game;
 
 public class Board {
-    private int[][] board;
+    private final int[][] board;
 
     public Board(int[][] boardInit){
         this.board = boardInit;
@@ -24,10 +24,6 @@ public class Board {
     protected void applyMove(Move move){
         this.board[move.y][move.x] = 0;
         this.board[move.y + move.shiftY][move.x + move.shiftX] = move.player;
-    }
-
-    public void setBoard(int[][] newBoard){
-        this.board = newBoard;
     }
 
     protected int[][] getBoard(){

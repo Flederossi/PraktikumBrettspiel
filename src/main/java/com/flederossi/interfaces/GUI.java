@@ -1,4 +1,4 @@
-package com.flederossi.game;
+package com.flederossi.interfaces;
 
 import org.eclipse.swt.events.MouseListener;
 
