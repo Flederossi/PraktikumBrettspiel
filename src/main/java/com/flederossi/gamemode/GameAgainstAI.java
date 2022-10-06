@@ -33,7 +33,8 @@ public class GameAgainstAI extends Game {
         this.players = new Object[]{new AI(1), new Player(2)};
     }
 
-    // TODO Make the ai smarter
+    // TODO Create new function to check and apply a move from the ai and the player
+
     @Override
     protected void onMouseEvent(MouseEvent mouseEvent){
         Player player = (Player) this.players[currentPlayer - 1];
@@ -79,7 +80,8 @@ public class GameAgainstAI extends Game {
     protected void start(){
         if (aiID == 2){
             System.out.println("Found AI");
-            this.currentPlayer = this.currentPlayer == 1 ? 2 : 1;
+            this.currentPlayer = 1;
+            this.ui.updateStatus(convertIDToPlayer(this.currentPlayer) + " ist am Zug");
         }
 
         super.start();

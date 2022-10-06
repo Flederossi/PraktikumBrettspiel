@@ -54,8 +54,6 @@ abstract public class Game {
         this.ui.updateBoard(this.board.getBoard(), -1, -1, true);
         this.ui.updateStatus(convertIDToPlayer(this.currentPlayer) + " ist am Zug");
 
-        System.out.println("Called start");
-
         this.ui.start();
     }
 }

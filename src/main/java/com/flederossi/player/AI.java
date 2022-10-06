@@ -9,6 +9,7 @@ public class AI {
         this.id = id;
     }
 
+    // TODO Make the ai smarter
     public Move generateNextMove(int tileX, int tileY, int[][] board){
         Move nextMove = new Move(this.id, 0, 0, 0, 0);
 
