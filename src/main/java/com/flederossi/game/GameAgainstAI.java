@@ -18,7 +18,7 @@ public class GameAgainstAI extends Game{
 
     private Object[] players;
 
-    GameAgainstAI(int[][] board, GUI ui){
+    protected GameAgainstAI(int[][] board, GUI ui){
         super(board, ui);
 
         this.ui = super.ui;
@@ -31,7 +31,7 @@ public class GameAgainstAI extends Game{
     }
 
     @Override
-    public void onMouseEvent(MouseEvent mouseEvent){
+    protected void onMouseEvent(MouseEvent mouseEvent){
         if (!this.gameEnded){
 
         }

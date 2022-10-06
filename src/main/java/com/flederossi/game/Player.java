@@ -3,10 +3,10 @@ package com.flederossi.game;
 public class Player {
     private final int id;
 
-    public int firstX, firstY;
+    protected int firstX, firstY;
     private boolean firstClick;
 
-    Player(int id){
+    protected Player(int id){
         this.id = id;
         this.firstClick = false;
     }
@@ -15,7 +15,7 @@ public class Player {
         return new int[]{x2 - x1, y2 - y1};
     }
 
-    public Move generateNextMove(int tileX, int tileY){
+    protected Move generateNextMove(int tileX, int tileY, int[][] board){
         Move nextMove;
 
         if (firstClick) {

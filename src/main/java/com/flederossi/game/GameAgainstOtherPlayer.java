@@ -6,16 +6,16 @@ import org.eclipse.swt.events.MouseEvent;
 public class GameAgainstOtherPlayer extends Game{
 
     private final GUI ui;
-    public final WinLogic winLogic;
+    private final WinLogic winLogic;
 
-    public final Board board;
+    private final Board board;
 
-    public int currentPlayer;
+    private int currentPlayer;
     private boolean gameEnded;
 
     private final Player[] players;
 
-    GameAgainstOtherPlayer(int[][] board, GUI ui){
+    protected GameAgainstOtherPlayer(int[][] board, GUI ui){
         super(board, ui);
 
         this.ui = super.ui;
@@ -28,13 +28,13 @@ public class GameAgainstOtherPlayer extends Game{
     }
 
     @Override
-    public void onMouseEvent(MouseEvent mouseEvent){
+    protected void onMouseEvent(MouseEvent mouseEvent){
         if (!this.gameEnded) {
             int tileX = (int) Math.ceil((float) ((mouseEvent.x - GameUI.offsetX) / GameUI.size));
             int tileY = (int) Math.ceil((float) ((mouseEvent.y - GameUI.offsetY) / GameUI.size));
 
             if (tileX < 5 && tileY < 5) {
-                Move nextMove = this.players[this.currentPlayer - 1].generateNextMove(tileX, tileY);
+                Move nextMove = this.players[this.currentPlayer - 1].generateNextMove(tileX, tileY, this.board.getBoard());
 
                 if (nextMove == null){
                     this.ui.updateBoard(this.board.getBoard(), this.players[currentPlayer - 1].firstX, this.players[currentPlayer - 1].firstY, false);
