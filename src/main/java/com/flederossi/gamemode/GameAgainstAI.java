@@ -1,12 +1,13 @@
 package com.flederossi.gamemode;
 
-import com.flederossi.game.*;
+import com.flederossi.game.Board;
+import com.flederossi.game.Game;
+import com.flederossi.game.Move;
+import com.flederossi.game.WinLogic;
 import com.flederossi.interfaces.GUI;
 import com.flederossi.player.AI;
 import com.flederossi.player.Player;
 import org.eclipse.swt.events.MouseEvent;
-
-import java.util.Arrays;
 
 public class GameAgainstAI extends Game {
     private final GUI ui;
@@ -17,8 +18,8 @@ public class GameAgainstAI extends Game {
     public int currentPlayer;
     private boolean gameEnded;
 
-    private Object[] players;
-    private static int aiID = 1;
+    private final Object[] players;
+    private static final int aiID = 1;
 
     public GameAgainstAI(int[][] boardInit, GUI ui){
         super(boardInit, ui);
