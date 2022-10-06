@@ -14,7 +14,7 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 
-public class GameUI {
+public class GameUI implements GUI{
     private final Display display;
     private final Shell shell;
     private final Canvas view;
@@ -24,7 +24,7 @@ public class GameUI {
 
     private final Color[] colors;
 
-    protected GameUI(MouseListener ml){
+    protected GameUI(){
         this.display = new Display();
         this.shell = new Shell(display, SWT.CLOSE | SWT.TITLE);
 
@@ -39,7 +39,6 @@ public class GameUI {
         this.colors = new Color[] {display.getSystemColor(SWT.COLOR_GRAY), display.getSystemColor(SWT.COLOR_WHITE), display.getSystemColor(SWT.COLOR_BLACK)};
 
         this.view = new Canvas(this.shell, SWT.NONE);
-        this.view.addMouseListener(ml);
         this.view.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 
         this.status = new Label(this.shell, SWT.NONE);
@@ -48,7 +47,13 @@ public class GameUI {
         this.status.setFont(new Font(this.status.getDisplay(), new FontData("Calibri", 12, SWT.BOLD)));
     }
 
-    protected void updateBoard(int[][] board, int firstX, int firstY, boolean firstClick){
+    @Override
+    public void setMouseListener(MouseListener ml){
+        this.view.addMouseListener(ml);
+    }
+
+    @Override
+    public void updateBoard(int[][] board, int firstX, int firstY, boolean firstClick){
         this.view.addPaintListener(new PaintListener() {
             @Override
             public void paintControl(PaintEvent paintEvent) {
@@ -73,11 +78,13 @@ public class GameUI {
         this.view.update();
     }
 
-    protected void updateStatus(String content){
+    @Override
+    public void updateStatus(String content){
         this.status.setText(content);
     }
 
-    protected void start(){
+    @Override
+    public void start(){
         this.shell.open();
 
         while (!this.shell.isDisposed()){

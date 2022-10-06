@@ -1,5 +1,4 @@
 import com.flederossi.game.WinLogic;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -24,7 +23,7 @@ public class WinLogicTest {
 
     @ParameterizedTest
     @MethodSource("testCases")
-    public void playerWon(int[][] board, int expected){
+    public void testPlayerWon(int[][] board, int expected){
         this.winLogic.reloadPosBlack(board);
         assertEquals(expected, this.winLogic.checkWon(board));
     }

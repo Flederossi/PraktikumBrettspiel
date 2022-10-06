@@ -1,11 +1,8 @@
 import com.flederossi.game.Board;
-import com.flederossi.game.Game;
 import com.flederossi.game.Move;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
-import org.junit.jupiter.params.provider.ValueSource;
 
 import java.util.stream.Stream;
 
@@ -28,7 +25,7 @@ public class GameLogicTest {
 
     @ParameterizedTest
     @MethodSource("testCases")
-    public void legalMoves(int[][] board, Move move, boolean expected){
+    public void testLegalMoves(int[][] board, Move move, boolean expected){
         this.board.setBoard(board);
         assertEquals(expected, this.board.checkLegalMove(move));
     }

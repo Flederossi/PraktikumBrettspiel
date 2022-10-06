@@ -10,7 +10,8 @@ public class GameLauncher {
                 {2, 1, 1, 1, 1},
         };
 
-        Game game = new Game(board);
+        GUI ui = new GameUI();
+        Game game = new Game(board, ui);
         game.start();
     }
 }
