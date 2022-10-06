@@ -1,9 +1,11 @@
-package com.flederossi.game;
+package com.flederossi.gamemode;
 
+import com.flederossi.game.*;
 import com.flederossi.interfaces.GUI;
+import com.flederossi.player.Player;
 import org.eclipse.swt.events.MouseEvent;
 
-public class GameAgainstOtherPlayer extends Game{
+public class GameAgainstOtherPlayer extends Game {
 
     private final GUI ui;
     private final WinLogic winLogic;
@@ -15,7 +17,7 @@ public class GameAgainstOtherPlayer extends Game{
 
     private final Player[] players;
 
-    protected GameAgainstOtherPlayer(int[][] board, GUI ui){
+    public GameAgainstOtherPlayer(int[][] board, GUI ui){
         super(board, ui);
 
         this.ui = super.ui;
@@ -30,8 +32,8 @@ public class GameAgainstOtherPlayer extends Game{
     @Override
     protected void onMouseEvent(MouseEvent mouseEvent){
         if (!this.gameEnded) {
-            int tileX = (int) Math.ceil((float) ((mouseEvent.x - GameUI.offsetX) / GameUI.size));
-            int tileY = (int) Math.ceil((float) ((mouseEvent.y - GameUI.offsetY) / GameUI.size));
+            int tileX = (int) Math.ceil((float) ((mouseEvent.x - this.ui.getDisplayData()[1]) / this.ui.getDisplayData()[0]));
+            int tileY = (int) Math.ceil((float) ((mouseEvent.y - this.ui.getDisplayData()[2]) / this.ui.getDisplayData()[0]));
 
             if (tileX < 5 && tileY < 5) {
                 Move nextMove = this.players[this.currentPlayer - 1].generateNextMove(tileX, tileY, this.board.getBoard());

@@ -21,12 +21,12 @@ public class Board {
         }
     }
 
-    protected void applyMove(Move move){
+    public void applyMove(Move move){
         this.board[move.y][move.x] = 0;
         this.board[move.y + move.shiftY][move.x + move.shiftX] = move.player;
     }
 
-    protected int[][] getBoard(){
+    public int[][] getBoard(){
         return this.board;
     }
 }

@@ -21,7 +21,7 @@ public class GameUI implements GUI {
     private final Canvas view;
     private final Label status;
 
-    protected final static int size = 50, offsetX = 10, offsetY = 10;
+    public final static int size = 50, offsetX = 10, offsetY = 10;
 
     private final Color[] colors;
 
@@ -82,6 +82,11 @@ public class GameUI implements GUI {
     @Override
     public void updateStatus(String content){
         this.status.setText(content);
+    }
+
+    @Override
+    public int[] getDisplayData(){
+        return new int[]{size, offsetX, offsetY};
     }
 
     @Override

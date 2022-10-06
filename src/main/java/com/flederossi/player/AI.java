@@ -1,13 +1,15 @@
-package com.flederossi.game;
+package com.flederossi.player;
+
+import com.flederossi.game.Move;
 
 public class AI {
     private final int id;
 
-    protected AI(int id){
+    public AI(int id){
         this.id = id;
     }
 
-    protected Move generateNextMove(int tileX, int tileY, int[][] board){
+    public Move generateNextMove(int tileX, int tileY, int[][] board){
         Move nextMove = new Move(this.id, 0, 0, 0, 0);
 
         System.out.println("Called AI...");

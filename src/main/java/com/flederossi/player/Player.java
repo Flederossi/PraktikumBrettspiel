@@ -1,12 +1,14 @@
-package com.flederossi.game;
+package com.flederossi.player;
+
+import com.flederossi.game.Move;
 
 public class Player {
     private final int id;
 
-    protected int firstX, firstY;
+    public int firstX, firstY;
     private boolean firstClick;
 
-    protected Player(int id){
+    public Player(int id){
         this.id = id;
         this.firstClick = false;
     }
@@ -15,7 +17,7 @@ public class Player {
         return new int[]{x2 - x1, y2 - y1};
     }
 
-    protected Move generateNextMove(int tileX, int tileY, int[][] board){
+    public Move generateNextMove(int tileX, int tileY, int[][] board){
         Move nextMove;
 
         if (firstClick) {
