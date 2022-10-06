@@ -7,13 +7,13 @@ public class Game {
     GameUI ui;
     WinLogic winLogic;
 
-    int[][] board, boardInit;
+    Board board;
 
     int currentPlayer, firstX, firstY;
     boolean firstClick, gameEnded;
 
     public Game(int[][] boardInit){
-        this.board = this.boardInit = boardInit;
+        this.board = new Board(boardInit);
         this.currentPlayer = 2;
         this.firstClick = this.gameEnded = false;
         this.firstX = this.firstY = -1;
@@ -27,29 +27,6 @@ public class Game {
     // Convert two coordinates to the shift of a move
     int[] convertCoordsToShift(int x1, int y1, int x2, int y2){
         return new int[]{x2 - x1, y2 - y1};
-    }
-
-    // Get the player on the target field of a move
-    int getPlayerTargetField(Move move, int[][] board){
-        return board[move.y + move.shiftY][move.x + move.shiftX];
-    }
-
-    // Check if a move is legal
-    public boolean checkLegalMove(Move move, int[][] board){
-        // Check if move is diagonal
-        if (move.shiftX == 0 ^ move.shiftY == 0) {
-            // Check if move is from the right player to the right field
-            return ((move.player == 1 && getPlayerTargetField(move, board) == 0) || (move.player == 2 && getPlayerTargetField(move, board) == 1)) && (board[move.y][move.x] == move.player) && Math.abs(move.shiftX) < 2 && Math.abs(move.shiftY) < 2;
-        }else{
-            return false;
-        }
-    }
-
-    // Apply a move to the current board
-    int[][] applyMoveToBoard(Move move, int[][] board){
-        board[move.y][move.x] = 0;
-        board[move.y + move.shiftY][move.x + move.shiftX] = move.player;
-        return board;
     }
 
     // Event when mouse is clicked (main game logic)
@@ -69,26 +46,26 @@ public class Game {
                 Move currentMove = new Move(this.currentPlayer, sX, sY, this.firstX, this.firstY);
 
                 // Check if the move is legal and apply if so
-                if (checkLegalMove(currentMove, this.board)) {
-                    this.board = applyMoveToBoard(currentMove, this.board);
-                    this.winLogic.reloadPosBlack(this.board);
-                    ui.updateBoard(this.board, this.firstX, this.firstY, this.firstClick);
+                if (this.board.checkLegalMove(currentMove)) {
+                    this.board.applyMove(currentMove);
+                    this.winLogic.reloadPosBlack(this.board.getBoard());
+                    ui.updateBoard(this.board.getBoard(), this.firstX, this.firstY, this.firstClick);
                     this.currentPlayer = this.currentPlayer == 1 ? 2 : 1;
                     ui.updateStatus(convertIDToPlayer(this.currentPlayer) + " ist am Zug");
                 } else {
                     ui.updateStatus("Zug ungültig");
-                    ui.updateBoard(this.board, this.firstX, this.firstY, this.firstClick);
+                    ui.updateBoard(this.board.getBoard(), this.firstX, this.firstY, this.firstClick);
                 }
             } else {
                 this.firstX = tileX;
                 this.firstY = tileY;
-                ui.updateBoard(this.board, this.firstX, this.firstY, false);
+                ui.updateBoard(this.board.getBoard(), this.firstX, this.firstY, false);
             }
 
             this.firstClick = !this.firstClick;
 
             // Check if one player won the game
-            int res = winLogic.checkWon(this.board);
+            int res = winLogic.checkWon(this.board.getBoard());
             if (res > 0) {
                 ui.updateStatus(convertIDToPlayer(res) + " hat gewonnen");
                 this.gameEnded = true;
@@ -97,7 +74,7 @@ public class Game {
     }
 
     void start(){
-        this.winLogic = new WinLogic(this.board);
+        this.winLogic = new WinLogic(this.board.getBoard());
 
         MouseListener ml = new MouseListener() {
             @Override
@@ -118,7 +95,7 @@ public class Game {
 
         this.ui = new GameUI(ml);
 
-        this.ui.updateBoard(this.board, this.firstX, this.firstY, this.firstClick);
+        this.ui.updateBoard(this.board.getBoard(), this.firstX, this.firstY, this.firstClick);
         this.ui.updateStatus(convertIDToPlayer(this.currentPlayer) + " ist am Zug");
 
         this.ui.start();

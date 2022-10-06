@@ -1,14 +1,21 @@
+import com.flederossi.game.Board;
 import com.flederossi.game.Game;
 import com.flederossi.game.Move;
-import com.flederossi.game.WinLogic;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
+import org.junit.jupiter.params.provider.ValueSource;
+
+import java.util.stream.Stream;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class TestGameLogic {
+public class GameLogicTest {
 
-    Game game;
+    Board board;
 
-    TestGameLogic(){
+    GameLogicTest(){
         int[][] boardInit = {
                 {1, 1, 1, 1, 2},
                 {1, 1, 1, 1, 1},
@@ -16,60 +23,53 @@ public class TestGameLogic {
                 {1, 1, 1, 1, 1},
                 {2, 1, 1, 1, 1},
         };
-        this.game = new Game(boardInit);
+        this.board = new Board(boardInit);
     }
 
-    @Test
-    void testLegalMove(){
-        int[][][] testCasesBoard = {
-                {
+    @ParameterizedTest
+    @MethodSource("testCases")
+    public void legalMoves(int[][] board, Move move, boolean expected){
+        this.board.setBoard(board);
+        assertEquals(expected, this.board.checkLegalMove(move));
+    }
+
+    public static Stream<Arguments> testCases(){
+        return Stream.of(
+                Arguments.arguments(new int[][]{
                         {1, 1, 1, 0, 2},
                         {1, 0, 1, 1, 1},
                         {1, 1, 2, 1, 1},
                         {1, 1, 0, 1, 1},
                         {1, 2, 1, 1, 0},
-                },
-                {
+                }, new Move(2, 0, 1, 4, 0), true),
+                Arguments.arguments(new int[][]{
                         {1, 1, 1, 1, 1},
                         {1, 1, 0, 1, 1},
                         {1, 0, 2, 0, 1},
                         {1, 1, 0, 1, 1},
                         {1, 1, 1, 1, 1},
-                },
-                {
+                }, new Move(2, 0, 1, 2, 2), false),
+                Arguments.arguments(new int[][]{
                         {1, 2, 1, 0, 1},
                         {1, 1, 2, 1, 1},
                         {1, 1, 1, 1, 1},
                         {1, 1, 1, 1, 1},
                         {1, 1, 1, 1, 1},
-                },
-                {
+                }, new Move(1, 1, 0, 2, 0), true),
+                Arguments.arguments(new int[][]{
                         {1, 1, 1, 1, 1},
                         {1, 1, 2, 1, 1},
                         {1, 0, 1, 0, 1},
                         {1, 1, 0, 1, 1},
                         {1, 1, 1, 1, 1},
-                },
-                {
+                }, new Move(1, 0, -1, 2, 2), false),
+                Arguments.arguments(new int[][]{
                         {1, 1, 1, 1, 1},
                         {1, 1, 1, 1, 1},
                         {1, 1, 1, 1, 1},
                         {1, 1, 1, 2, 1},
                         {1, 1, 1, 1, 1},
-                }
-        };
-        Move[] testCasesMove = {
-                new Move(2, 0, 1, 4, 0),
-                new Move(2, 0, 1, 2, 2),
-                new Move(1, 1, 0, 2, 0),
-                new Move(1, 0, -1, 2, 2),
-                new Move(2, -2, 0, 3, 3)
-        };
-
-        boolean[] expected = {true, false, true, false, false};
-
-        for (int i = 0; i < testCasesBoard.length; i++) {
-            assertEquals(expected[i], this.game.checkLegalMove(testCasesMove[i], testCasesBoard[i]));
-        }
+                }, new Move(2, -2, 0, 3, 3), false)
+        );
     }
 }
