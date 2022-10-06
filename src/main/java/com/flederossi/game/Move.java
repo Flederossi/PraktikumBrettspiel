@@ -1,9 +1,9 @@
 package com.flederossi.game;
 
 public class Move {
-    final int player;
-    final int shiftX, shiftY;
-    final int x, y;
+    protected final int player;
+    protected final int shiftX, shiftY;
+    protected final int x, y;
 
     public Move(int p, int sX, int sY, int pX, int pY){
         this.player = p;

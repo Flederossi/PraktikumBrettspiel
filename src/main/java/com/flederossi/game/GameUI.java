@@ -15,17 +15,16 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 
 public class GameUI {
-    Display display;
-    Shell shell;
-    Canvas view;
-    Label status;
-    MouseListener ml;
+    private final Display display;
+    private final Shell shell;
+    private final Canvas view;
+    private final Label status;
 
-    static int size = 50, offsetX = 10, offsetY = 10;
+    protected final static int size = 50, offsetX = 10, offsetY = 10;
 
-    Color[] colors;
+    private final Color[] colors;
 
-    GameUI(MouseListener ml){
+    protected GameUI(MouseListener ml){
         this.display = new Display();
         this.shell = new Shell(display, SWT.CLOSE | SWT.TITLE);
 
@@ -37,11 +36,10 @@ public class GameUI {
 
         this.shell.setLayout(layout);
 
-        this.ml = ml;
         this.colors = new Color[] {display.getSystemColor(SWT.COLOR_GRAY), display.getSystemColor(SWT.COLOR_WHITE), display.getSystemColor(SWT.COLOR_BLACK)};
 
         this.view = new Canvas(this.shell, SWT.NONE);
-        this.view.addMouseListener(this.ml);
+        this.view.addMouseListener(ml);
         this.view.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 
         this.status = new Label(this.shell, SWT.NONE);
@@ -50,7 +48,7 @@ public class GameUI {
         this.status.setFont(new Font(this.status.getDisplay(), new FontData("Calibri", 12, SWT.BOLD)));
     }
 
-    void updateBoard(int[][] board, int firstX, int firstY, boolean firstClick){
+    protected void updateBoard(int[][] board, int firstX, int firstY, boolean firstClick){
         this.view.addPaintListener(new PaintListener() {
             @Override
             public void paintControl(PaintEvent paintEvent) {
@@ -75,11 +73,11 @@ public class GameUI {
         this.view.update();
     }
 
-    void updateStatus(String content){
+    protected void updateStatus(String content){
         this.status.setText(content);
     }
 
-    void start(){
+    protected void start(){
         this.shell.open();
 
         while (!this.shell.isDisposed()){

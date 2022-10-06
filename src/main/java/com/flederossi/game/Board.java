@@ -1,13 +1,13 @@
 package com.flederossi.game;
 
 public class Board {
-    int[][] board;
+    private int[][] board;
 
     public Board(int[][] boardInit){
         this.board = boardInit;
     }
 
-    int getPlayerTargetField(Move move){
+    private int getPlayerTargetField(Move move){
         return this.board[move.y + move.shiftY][move.x + move.shiftX];
     }
 
@@ -21,7 +21,7 @@ public class Board {
         }
     }
 
-    void applyMove(Move move){
+    protected void applyMove(Move move){
         this.board[move.y][move.x] = 0;
         this.board[move.y + move.shiftY][move.x + move.shiftX] = move.player;
     }
@@ -30,7 +30,7 @@ public class Board {
         this.board = newBoard;
     }
 
-    int[][] getBoard(){
+    protected int[][] getBoard(){
         return this.board;
     }
 }

@@ -1,7 +1,7 @@
 package com.flederossi.game;
 
 public class WinLogic {
-    int[][] posBlack;
+    private int[][] posBlack;
 
     public WinLogic(int[][] board){
         reloadPosBlack(board);
@@ -22,7 +22,7 @@ public class WinLogic {
         }
     }
 
-    boolean checkOnlyContains(int[] array){
+    private boolean checkOnlyContains(int[] array){
         boolean res = true;
         int num = array[0];
         for (int i = 1; i < array.length; i++){
@@ -34,7 +34,7 @@ public class WinLogic {
         return !res;
     }
 
-    boolean checkNeighbourFieldsEmpty(int x, int y, int[][] board){
+    private boolean checkNeighbourFieldsEmpty(int x, int y, int[][] board){
         return (y <= 0 || board[y - 1][x] == 0) && (y >= 4 || board[y + 1][x] == 0) && (x <= 0 || board[y][x - 1] == 0) && (x >= 4 || board[y][x + 1] == 0);
     }
 

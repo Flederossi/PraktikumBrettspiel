@@ -13,9 +13,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class GameLogicTest {
 
-    Board board;
+    private final Board board;
 
-    GameLogicTest(){
+    public GameLogicTest(){
         int[][] boardInit = {
                 {1, 1, 1, 1, 2},
                 {1, 1, 1, 1, 1},
@@ -33,7 +33,7 @@ public class GameLogicTest {
         assertEquals(expected, this.board.checkLegalMove(move));
     }
 
-    public static Stream<Arguments> testCases(){
+    private static Stream<Arguments> testCases(){
         return Stream.of(
                 Arguments.arguments(new int[][]{
                         {1, 1, 1, 0, 2},

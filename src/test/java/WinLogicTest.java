@@ -9,9 +9,9 @@ import java.util.stream.Stream;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class WinLogicTest {
-    WinLogic winLogic;
+    private final WinLogic winLogic;
 
-    WinLogicTest(){
+    public WinLogicTest(){
         int[][] boardInit = {
                 {1, 1, 1, 1, 2},
                 {1, 1, 1, 1, 1},
@@ -29,7 +29,7 @@ public class WinLogicTest {
         assertEquals(expected, this.winLogic.checkWon(board));
     }
 
-    public static Stream<Arguments> testCases(){
+    private static Stream<Arguments> testCases(){
         return Stream.of(
                 Arguments.arguments(new int[][]{
                         {1, 1, 1, 1, 2},
