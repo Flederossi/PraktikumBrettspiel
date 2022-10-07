@@ -1,9 +1,9 @@
-package com.flederossi.gamemode;
+package com.flederossi.gamemodes;
 
 import com.flederossi.game.*;
 import com.flederossi.interfaces.GUI;
 import com.flederossi.interfaces.PlayerImpl;
-import com.flederossi.player.Player;
+import com.flederossi.players.Player;
 
 public class GameAgainstPlayer extends Game {
     private final PlayerImpl[] players;

@@ -1,11 +1,11 @@
-package com.flederossi.gamemode;
+package com.flederossi.gamemodes;
 
 import com.flederossi.game.Game;
 import com.flederossi.game.Move;
 import com.flederossi.interfaces.GUI;
 import com.flederossi.interfaces.PlayerImpl;
-import com.flederossi.player.AI;
-import com.flederossi.player.Player;
+import com.flederossi.players.AI;
+import com.flederossi.players.Player;
 
 public class GameAgainstAI extends Game {
     private final PlayerImpl[] players;

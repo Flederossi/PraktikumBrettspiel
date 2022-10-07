@@ -56,7 +56,7 @@ abstract public class Game {
             this.winLogic.reloadPosBlack(this.board.getBoard());
             int won = this.winLogic.checkWon(this.board.getBoard());
             if (won > 0) {
-                this.ui.updateStatus(convertIDToPlayer(this.currentPlayer) + " hat gewonnen");
+                this.ui.updateStatus(convertIDToPlayer(won) + " hat gewonnen");
                 this.gameEnded = true;
             }
         }

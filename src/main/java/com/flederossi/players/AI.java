@@ -1,4 +1,4 @@
-package com.flederossi.player;
+package com.flederossi.players;
 
 import com.flederossi.game.Move;
 import com.flederossi.interfaces.PlayerImpl;
