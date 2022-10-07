@@ -12,4 +12,8 @@ public class Move {
         this.x = pX;
         this.y = pY;
     }
+
+    public String debugMove(){
+        return "Move by " + this.player + " from (" + this.x + " | " + this.y + ") with (" + this.shiftX + " | " + this.shiftY + ")";
+    }
 }

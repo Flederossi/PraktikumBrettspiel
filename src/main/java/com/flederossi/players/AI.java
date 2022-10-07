@@ -5,6 +5,7 @@ import com.flederossi.game.Move;
 import com.flederossi.interfaces.PlayerImpl;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class AI implements PlayerImpl {
@@ -30,8 +31,19 @@ public class AI implements PlayerImpl {
             }
         }
 
-        System.out.println(availableMoves.size() + " moves found");
+        // TODO Some fancy algorithm to search for the best moves :)
 
-        return availableMoves.get(ThreadLocalRandom.current().nextInt(availableMoves.size()));
+        System.out.println("\nFound " + availableMoves.size() + " moves");
+
+        int randIndex = ThreadLocalRandom.current().nextInt(availableMoves.size());
+
+        for (int i = 0; i < availableMoves.size(); i++){
+            if (i == randIndex){
+                System.out.print("> ");
+            }
+            System.out.println(availableMoves.get(i).debugMove());
+        }
+
+        return availableMoves.get(randIndex);
     }
 }

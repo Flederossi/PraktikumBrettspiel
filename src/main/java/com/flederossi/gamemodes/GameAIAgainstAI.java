@@ -20,7 +20,6 @@ public class GameAIAgainstAI extends Game {
 
     @Override
     protected int makeChangesForRound(int tileX, int tileY){
-        System.out.println("AI: " + super.currentPlayer);
         super.board.applyMove(this.generateAIMove());
         super.switchCurrentPlayer();
 
