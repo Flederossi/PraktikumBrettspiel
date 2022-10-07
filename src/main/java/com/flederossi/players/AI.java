@@ -5,7 +5,6 @@ import com.flederossi.game.Move;
 import com.flederossi.interfaces.PlayerImpl;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class AI implements PlayerImpl {
