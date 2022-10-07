@@ -2,16 +2,15 @@ package com.flederossi.gamemode;
 
 import com.flederossi.game.*;
 import com.flederossi.interfaces.GUI;
+import com.flederossi.interfaces.PlayerImpl;
 import com.flederossi.player.Player;
-import org.eclipse.swt.events.MouseEvent;
 
 public class GameAgainstPlayer extends Game {
-    private final Player[] players;
+    private final PlayerImpl[] players;
 
     public GameAgainstPlayer(int[][] board, GUI ui){
         super(board, ui);
-
-        this.players = new Player[]{new Player(), new Player()};
+        this.players = new PlayerImpl[]{new Player(), new Player()};
     }
 
     @Override

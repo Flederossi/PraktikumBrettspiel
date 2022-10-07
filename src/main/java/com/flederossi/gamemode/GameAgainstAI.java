@@ -12,7 +12,6 @@ public class GameAgainstAI extends Game {
 
     public GameAgainstAI(int[][] boardInit, GUI ui){
         super(boardInit, ui);
-
         this.players = new PlayerImpl[]{new AI(), new Player()};
     }
 
@@ -47,6 +46,7 @@ public class GameAgainstAI extends Game {
 
     @Override
     protected void start(){
+        // Call the AI if the AI is black (should do the first move)
         if (this.players[super.currentPlayer - 1] instanceof AI){
             super.board.applyMove(generateAIMove());
             super.switchCurrentPlayer();
