@@ -6,11 +6,12 @@ import com.flederossi.interfaces.GUIImpl;
 import com.flederossi.interfaces.PlayerImpl;
 import com.flederossi.players.AI;
 import com.flederossi.players.Player;
+import org.eclipse.swt.events.MouseEvent;
 
 public class GameAIAgainstAI extends Game {
     public GameAIAgainstAI(int[][] boardInit, GUIImpl ui){
         super(boardInit, ui);
-        super.players = new PlayerImpl[]{new AI(), new Player()};
+        super.players = new PlayerImpl[]{new AI(), new AI()};
     }
 
     private Move generateAIMove(){
@@ -19,10 +20,8 @@ public class GameAIAgainstAI extends Game {
 
     @Override
     protected int makeChangesForRound(int tileX, int tileY){
-        super.board.applyMove(generateAIMove());
-        super.switchCurrentPlayer();
-
-        super.board.applyMove(generateAIMove());
+        System.out.println("AI: " + super.currentPlayer);
+        super.board.applyMove(this.generateAIMove());
         super.switchCurrentPlayer();
 
         return 0;
@@ -30,9 +29,6 @@ public class GameAIAgainstAI extends Game {
 
     @Override
     protected void start(){
-        super.board.applyMove(generateAIMove());
-        super.switchCurrentPlayer();
-
         super.start();
     }
 }
