@@ -19,7 +19,7 @@ public class GamePlayerAgainstAI extends Game {
     }
 
     @Override
-    protected int makeChangesForRound(int tileX, int tileY){
+    protected int makeChangesForRound(int tileX, int tileY) {
         Move move;
 
         move = super.players[super.currentPlayer - 1].generateNextMove(super.currentPlayer, tileX, tileY, super.board);

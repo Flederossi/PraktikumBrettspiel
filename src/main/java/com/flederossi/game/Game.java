@@ -33,12 +33,12 @@ abstract public class Game {
         this.currentPlayer = this.currentPlayer == 1 ? 2 : 1;
     }
 
-    protected int makeChangesForRound(int tileX, int tileY){
+    protected int makeChangesForRound(int tileX, int tileY) {
         return -1;
     }
 
     // Event when mouse is clicked (main game logic)
-    protected void onMouseEvent(MouseEvent mouseEvent){
+    protected void onMouseEvent(MouseEvent mouseEvent) {
         if (!this.gameEnded) {
             int res = 0;
 

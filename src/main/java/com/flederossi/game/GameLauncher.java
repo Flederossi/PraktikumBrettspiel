@@ -16,7 +16,7 @@ public class GameLauncher {
         };
 
         GUIImpl ui = new GameView();
-        Game game = new GameAIAgainstAI(board, ui);
+        Game game = new GamePlayerAgainstAI(board, ui);
         game.start();
     }
 }

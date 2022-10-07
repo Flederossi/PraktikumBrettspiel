@@ -5,7 +5,7 @@ import com.flederossi.game.Move;
 import com.flederossi.interfaces.PlayerImpl;
 
 import java.util.ArrayList;
-import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class AI implements PlayerImpl {
     @Override
@@ -32,6 +32,6 @@ public class AI implements PlayerImpl {
 
         System.out.println(availableMoves.size() + " moves found");
 
-        return availableMoves.get(new Random().nextInt(availableMoves.size()));
+        return availableMoves.get(ThreadLocalRandom.current().nextInt(availableMoves.size()));
     }
 }

@@ -28,6 +28,13 @@ public class GameAIAgainstAI extends Game {
     }
 
     @Override
+    protected void onMouseEvent(MouseEvent mouseEvent) {
+        while (!this.gameEnded) {
+            super.onMouseEvent(mouseEvent);
+        }
+    }
+
+    @Override
     protected void start(){
         super.start();
     }
