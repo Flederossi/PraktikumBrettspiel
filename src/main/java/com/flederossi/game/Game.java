@@ -1,6 +1,7 @@
 package com.flederossi.game;
 
 import com.flederossi.interfaces.GUI;
+import com.flederossi.interfaces.PlayerImpl;
 import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.MouseListener;
 
@@ -12,6 +13,8 @@ abstract public class Game {
 
     protected int currentPlayer;
     protected boolean gameEnded;
+
+    protected PlayerImpl[] players;
 
     protected Game(int[][] boardInit, GUI ui){
         this.board = new Board(boardInit);

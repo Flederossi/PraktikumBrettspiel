@@ -7,34 +7,29 @@ import com.flederossi.interfaces.PlayerImpl;
 import com.flederossi.players.AI;
 import com.flederossi.players.Player;
 
-public class GameAgainstAI extends Game {
-    private final PlayerImpl[] players;
+public class GamePlayerAgainstAI extends Game {
 
-    public GameAgainstAI(int[][] boardInit, GUI ui){
+    public GamePlayerAgainstAI(int[][] boardInit, GUI ui){
         super(boardInit, ui);
-        this.players = new PlayerImpl[]{new AI(), new Player()};
+        super.players = new PlayerImpl[]{new AI(), new Player()};
     }
 
     private Move generateAIMove(){
-        return this.players[super.currentPlayer - 1].generateNextMove(super.currentPlayer, 0, 0, super.board.getBoard());
+        return super.players[super.currentPlayer - 1].generateNextMove(super.currentPlayer, 0, 0, super.board.getBoard());
     }
 
     @Override
     protected int makeChangesForRound(int tileX, int tileY){
         Move move;
 
-        move = this.players[super.currentPlayer - 1].generateNextMove(super.currentPlayer, tileX, tileY, super.board.getBoard());
+        move = super.players[super.currentPlayer - 1].generateNextMove(super.currentPlayer, tileX, tileY, super.board.getBoard());
 
         if (move != null){
             if (super.board.checkLegalMove(move)){
                 super.board.applyMove(move);
-
                 super.switchCurrentPlayer();
 
-                // Generate AI Move
-                move = generateAIMove();
-                super.board.applyMove(move);
-
+                super.board.applyMove(generateAIMove());
                 super.switchCurrentPlayer();
             }else{
                 return -1;
@@ -47,7 +42,7 @@ public class GameAgainstAI extends Game {
     @Override
     protected void start(){
         // Call the AI if the AI is black (should do the first move)
-        if (this.players[super.currentPlayer - 1] instanceof AI){
+        if (super.players[super.currentPlayer - 1] instanceof AI){
             super.board.applyMove(generateAIMove());
             super.switchCurrentPlayer();
         }
