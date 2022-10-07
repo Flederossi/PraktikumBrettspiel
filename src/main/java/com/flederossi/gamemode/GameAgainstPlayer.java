@@ -23,7 +23,7 @@ public class GameAgainstPlayer extends Game {
         if (move != null){
             if (super.board.checkLegalMove(move)){
                 super.board.applyMove(move);
-                super.currentPlayer = super.currentPlayer == 1 ? 2 : 1;
+                super.switchCurrentPlayer();
             }else{
                 return -1;
             }

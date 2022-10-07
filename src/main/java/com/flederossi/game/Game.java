@@ -26,6 +26,10 @@ abstract public class Game {
         return player == 1 ? "Weiß" : "Schwarz";
     }
 
+    protected void switchCurrentPlayer(){
+        this.currentPlayer = this.currentPlayer == 1 ? 2 : 1;
+    }
+
     protected int makeChangesForRound(int tileX, int tileY){
         return -1;
     }

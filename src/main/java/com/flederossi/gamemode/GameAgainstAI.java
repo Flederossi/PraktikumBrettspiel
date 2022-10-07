@@ -17,7 +17,7 @@ public class GameAgainstAI extends Game {
     }
 
     private Move generateAIMove(){
-        return this.players[(super.currentPlayer == 1 ? 2 : 1) - 1].generateNextMove(super.currentPlayer == 1 ? 2 : 1, 0, 0, super.board.getBoard());
+        return this.players[super.currentPlayer - 1].generateNextMove(super.currentPlayer, 0, 0, super.board.getBoard());
     }
 
     @Override
@@ -30,9 +30,13 @@ public class GameAgainstAI extends Game {
             if (super.board.checkLegalMove(move)){
                 super.board.applyMove(move);
 
+                super.switchCurrentPlayer();
+
                 // Generate AI Move
                 move = generateAIMove();
                 super.board.applyMove(move);
+
+                super.switchCurrentPlayer();
             }else{
                 return -1;
             }
@@ -43,9 +47,9 @@ public class GameAgainstAI extends Game {
 
     @Override
     protected void start(){
-        if (this.players[1] instanceof AI){
+        if (this.players[super.currentPlayer - 1] instanceof AI){
             super.board.applyMove(generateAIMove());
-            super.currentPlayer = 1;
+            super.switchCurrentPlayer();
         }
 
         super.start();
