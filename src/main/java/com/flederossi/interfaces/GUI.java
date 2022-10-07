@@ -8,7 +8,7 @@ public interface GUI {
     void addMouseListener(MouseListener ml);
 
     // Update the board part of the GUI
-    void updateBoard(int[][] board, int firstX, int firstY, boolean firstClick);
+    void updateBoard(int[][] board);
 
     // Update the status part of the GUI
     void updateStatus(String content);

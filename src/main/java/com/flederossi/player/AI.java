@@ -1,17 +1,13 @@
 package com.flederossi.player;
 
 import com.flederossi.game.Move;
+import com.flederossi.interfaces.PlayerImpl;
 
-public class AI {
-    private final int id;
-
-    public AI(int id){
-        this.id = id;
-    }
-
+public class AI implements PlayerImpl {
     // TODO Make the ai smarter
-    public Move generateNextMove(int tileX, int tileY, int[][] board){
-        Move nextMove = new Move(this.id, 0, 0, 0, 0);
+    @Override
+    public Move generateNextMove(int id, int tileX, int tileY, int[][] board){
+        Move nextMove = new Move(id, 0, 0, 0, 0);
 
         System.out.println("Called AI...");
 

@@ -52,15 +52,11 @@ public class GameView implements GUI {
     }
 
     @Override
-    public void updateBoard(int[][] board, int firstX, int firstY, boolean firstClick){
+    public void updateBoard(int[][] board){
         this.view.addPaintListener(paintEvent -> {
             for (int y = 0; y < 5; y++) {
                 for (int x = 0; x < 5; x++) {
-                    if (firstX == x && firstY == y && !firstClick){
-                        paintEvent.gc.setBackground(this.display.getSystemColor(SWT.COLOR_RED));
-                    }else {
-                        paintEvent.gc.setBackground(this.colors[board[y][x]]);
-                    }
+                    paintEvent.gc.setBackground(this.colors[board[y][x]]);
                     paintEvent.gc.setForeground(this.colors[2]);
                     int size = GameView.size;
                     int offsetX = GameView.offsetX;

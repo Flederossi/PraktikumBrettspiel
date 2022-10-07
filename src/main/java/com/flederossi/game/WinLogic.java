@@ -34,6 +34,7 @@ public class WinLogic {
         return !res;
     }
 
+    // TODO Rewrite to fix a bug
     private boolean checkNeighbourFieldsEmpty(int x, int y, int[][] board){
         return (y <= 0 || board[y - 1][x] == 0) && (y >= 4 || board[y + 1][x] == 0) && (x <= 0 || board[y][x - 1] == 0) && (x >= 4 || board[y][x + 1] == 0);
     }

@@ -1,15 +1,13 @@
 package com.flederossi.player;
 
 import com.flederossi.game.Move;
+import com.flederossi.interfaces.PlayerImpl;
 
-public class Player {
-    private final int id;
-
+public class Player implements PlayerImpl {
     public int firstX, firstY;
     private boolean firstClick;
 
-    public Player(int id){
-        this.id = id;
+    public Player(){
         this.firstClick = false;
     }
 
@@ -17,13 +15,14 @@ public class Player {
         return new int[]{x2 - x1, y2 - y1};
     }
 
-    public Move generateNextMove(int tileX, int tileY, int[][] board){
+    @Override
+    public Move generateNextMove(int id, int tileX, int tileY, int[][] board){
         Move nextMove;
 
         if (firstClick) {
             int sX = convertCoordsToShift(this.firstX, this.firstY, tileX, tileY)[0];
             int sY = convertCoordsToShift(this.firstX, this.firstY, tileX, tileY)[1];
-            nextMove = new Move(this.id, sX, sY, this.firstX, this.firstY);
+            nextMove = new Move(id, sX, sY, this.firstX, this.firstY);
         }else{
             this.firstX = tileX;
             this.firstY = tileY;

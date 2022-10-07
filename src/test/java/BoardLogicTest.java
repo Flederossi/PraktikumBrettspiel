@@ -8,11 +8,11 @@ import org.junit.jupiter.params.provider.MethodSource;
 import java.util.stream.Stream;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class GameLogicTest {
+public class BoardLogicTest {
 
     private Board board;
 
-    public GameLogicTest(){
+    public BoardLogicTest(){
         int[][] boardInit = {
                 {1, 1, 1, 1, 2},
                 {1, 1, 1, 1, 1},
