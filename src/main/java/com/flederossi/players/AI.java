@@ -4,29 +4,33 @@ import com.flederossi.game.Board;
 import com.flederossi.game.Move;
 import com.flederossi.interfaces.PlayerImpl;
 
+import java.util.ArrayList;
+
 public class AI implements PlayerImpl {
     @Override
     public Move generateNextMove(int id, int tileX, int tileY, Board board) {
-        Move nextMove = null;
-
-        int[][] boardContent = board.getBoard();
+        ArrayList<Move> availableMoves = new ArrayList<>();
 
         for (int y = 0; y < 5; y++) {
             for (int x = 0; x < 5; x++) {
-                nextMove = board.checkLegalMove(new Move(id, 0, -1, x, y)) ? new Move(id, 0, -1, x, y) : nextMove;
-                nextMove = board.checkLegalMove(new Move(id, 0, 1, x, y)) ? new Move(id, 0, 1, x, y) : nextMove;
-                nextMove = board.checkLegalMove(new Move(id, -1, 0, x, y)) ? new Move(id, -1, 0, x, y) : nextMove;
-                nextMove = board.checkLegalMove(new Move(id, 1, 0, x, y)) ? new Move(id, 1, 0, x, y) : nextMove;
-                if (nextMove != null){
-                    System.out.println("Found move");
-                    break;
+                if (board.checkLegalMove(new Move(id, 0, -1, x, y))){
+                    availableMoves.add(new Move(id, 0, -1, x, y));
                 }
-            }
-            if (nextMove != null){
-                break;
+                if (board.checkLegalMove(new Move(id, 0, 1, x, y))){
+                    availableMoves.add(new Move(id, 0, 1, x, y));
+                }
+                if (board.checkLegalMove(new Move(id, -1, 0, x, y))){
+                    availableMoves.add(new Move(id, -1, 0, x, y));
+                }
+                if (board.checkLegalMove(new Move(id, 1, 0, x, y))){
+                    availableMoves.add(new Move(id, 1, 0, x, y));
+                }
+
             }
         }
 
-        return nextMove;
+        System.out.println(availableMoves.size() + " moves found");
+
+        return availableMoves.get(0);
     }
 }

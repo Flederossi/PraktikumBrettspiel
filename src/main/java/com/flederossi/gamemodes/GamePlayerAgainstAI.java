@@ -11,7 +11,7 @@ public class GamePlayerAgainstAI extends Game {
 
     public GamePlayerAgainstAI(int[][] boardInit, GUIImpl ui){
         super(boardInit, ui);
-        super.players = new PlayerImpl[]{new AI(), new Player()};
+        super.players = new PlayerImpl[]{new Player(), new AI()};
     }
 
     private Move generateAIMove(){
@@ -31,7 +31,7 @@ public class GamePlayerAgainstAI extends Game {
 
                 move = generateAIMove();
                 if (move != null) {
-                    super.board.applyMove(generateAIMove());
+                    super.board.applyMove(move);
                 }
                 super.switchCurrentPlayer();
             }else{
