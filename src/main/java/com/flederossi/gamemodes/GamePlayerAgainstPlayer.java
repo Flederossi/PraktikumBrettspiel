@@ -1,12 +1,12 @@
 package com.flederossi.gamemodes;
 
 import com.flederossi.game.*;
-import com.flederossi.interfaces.GUI;
+import com.flederossi.interfaces.GUIImpl;
 import com.flederossi.interfaces.PlayerImpl;
 import com.flederossi.players.Player;
 
 public class GamePlayerAgainstPlayer extends Game {
-    public GamePlayerAgainstPlayer(int[][] board, GUI ui){
+    public GamePlayerAgainstPlayer(int[][] board, GUIImpl ui){
         super(board, ui);
         super.players = new PlayerImpl[]{new Player(), new Player()};
     }
@@ -15,7 +15,7 @@ public class GamePlayerAgainstPlayer extends Game {
     protected int makeChangesForRound(int tileX, int tileY){
         Move move;
 
-        move = super.players[super.currentPlayer - 1].generateNextMove(super.currentPlayer, tileX, tileY, super.board.getBoard());
+        move = super.players[super.currentPlayer - 1].generateNextMove(super.currentPlayer, tileX, tileY, super.board);
 
         if (move != null){
             if (super.board.checkLegalMove(move)){

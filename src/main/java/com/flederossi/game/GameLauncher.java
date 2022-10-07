@@ -1,7 +1,7 @@
 package com.flederossi.game;
 
-import com.flederossi.gamemodes.GamePlayerAgainstPlayer;
-import com.flederossi.interfaces.GUI;
+import com.flederossi.gamemodes.GamePlayerAgainstAI;
+import com.flederossi.interfaces.GUIImpl;
 
 public class GameLauncher {
     public static void main(String[] args){
@@ -13,8 +13,8 @@ public class GameLauncher {
                 {2, 1, 1, 1, 1},
         };
 
-        GUI ui = new GameView();
-        Game game = new GamePlayerAgainstPlayer(board, ui);
+        GUIImpl ui = new GameView();
+        Game game = new GamePlayerAgainstAI(board, ui);
         game.start();
     }
 }

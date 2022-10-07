@@ -2,7 +2,7 @@ package com.flederossi.interfaces;
 
 import org.eclipse.swt.events.MouseListener;
 
-public interface GUI {
+public interface GUIImpl {
 
     // Add the mouse listener to the board part
     void addMouseListener(MouseListener ml);

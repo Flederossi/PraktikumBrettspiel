@@ -1,12 +1,12 @@
 package com.flederossi.game;
 
-import com.flederossi.interfaces.GUI;
+import com.flederossi.interfaces.GUIImpl;
 import com.flederossi.interfaces.PlayerImpl;
 import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.MouseListener;
 
 abstract public class Game {
-    protected final GUI ui;
+    protected final GUIImpl ui;
     protected final WinLogic winLogic;
 
     protected final Board board;
@@ -16,7 +16,7 @@ abstract public class Game {
 
     protected PlayerImpl[] players;
 
-    protected Game(int[][] boardInit, GUI ui){
+    protected Game(int[][] boardInit, GUIImpl ui){
         this.board = new Board(boardInit);
         this.winLogic = new WinLogic(this.board.getBoard());
         this.currentPlayer = 2;
