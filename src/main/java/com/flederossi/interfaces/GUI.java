@@ -5,7 +5,7 @@ import org.eclipse.swt.events.MouseListener;
 public interface GUI {
 
     // Add the mouse listener to the board part
-    void setMouseListener(MouseListener ml);
+    void addMouseListener(MouseListener ml);
 
     // Update the board part of the GUI
     void updateBoard(int[][] board, int firstX, int firstY, boolean firstClick);

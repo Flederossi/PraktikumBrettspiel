@@ -1,7 +1,6 @@
 package com.flederossi.game;
 
 import com.flederossi.gamemode.GameAgainstAI;
-import com.flederossi.gamemode.GameAgainstOtherPlayer;
 import com.flederossi.interfaces.GUI;
 
 public class GameLauncher {
@@ -14,7 +13,7 @@ public class GameLauncher {
                 {2, 1, 1, 1, 1},
         };
 
-        GUI ui = new GameUI();
+        GUI ui = new GameView();
         Game game = new GameAgainstAI(board, ui);
         game.start();
     }

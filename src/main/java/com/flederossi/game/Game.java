@@ -49,7 +49,7 @@ abstract public class Game {
             }
         };
 
-        this.ui.setMouseListener(ml);
+        this.ui.addMouseListener(ml);
 
         this.ui.updateBoard(this.board.getBoard(), -1, -1, true);
         this.ui.updateStatus(convertIDToPlayer(this.currentPlayer) + " ist am Zug");
