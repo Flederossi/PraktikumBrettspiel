@@ -1,4 +1,5 @@
 import com.flederossi.game.Board;
+import com.flederossi.game.Coordinate;
 import com.flederossi.game.Move;
 import org.junit.jupiter.params.ParameterizedTest;
 
@@ -25,9 +26,9 @@ public class BoardLogicTest {
 
     @ParameterizedTest
     @MethodSource("testCases")
-    public void testLegalMoves(int[][] board, Move move, boolean expected){
+    public void testLegalMoves(int[][] board, Move move, int player, boolean expected){
         this.board = new Board(board);
-        assertEquals(expected, this.board.checkLegalMove(move));
+        assertEquals(expected, this.board.checkLegalMove(move, player));
     }
 
     private static Stream<Arguments> testCases(){
@@ -38,35 +39,35 @@ public class BoardLogicTest {
                         {1, 1, 2, 1, 1},
                         {1, 1, 0, 1, 1},
                         {1, 2, 1, 1, 0},
-                }, new Move(2, 0, 1, 4, 0), true),
+                }, new Move(new Coordinate(4, 0), new Coordinate(4, 1)), 2, true),
                 arguments(new int[][]{
                         {1, 1, 1, 1, 1},
                         {1, 1, 0, 1, 1},
                         {1, 0, 2, 0, 1},
                         {1, 1, 0, 1, 1},
                         {1, 1, 1, 1, 1},
-                }, new Move(2, 0, 1, 2, 2), false),
+                }, new Move(new Coordinate(2, 2), new Coordinate(2, 3)), 2, false),
                 arguments(new int[][]{
                         {1, 2, 1, 0, 1},
                         {1, 1, 2, 1, 1},
                         {1, 1, 1, 1, 1},
                         {1, 1, 1, 1, 1},
                         {1, 1, 1, 1, 1},
-                }, new Move(1, 1, 0, 2, 0), true),
+                }, new Move(new Coordinate(2, 0), new Coordinate(3, 0)), 1, true),
                 arguments(new int[][]{
                         {1, 1, 1, 1, 1},
                         {1, 1, 2, 1, 1},
                         {1, 0, 1, 0, 1},
                         {1, 1, 0, 1, 1},
                         {1, 1, 1, 1, 1},
-                }, new Move(1, 0, -1, 2, 2), false),
+                }, new Move(new Coordinate(2, 2), new Coordinate(2, 1)), 1, false),
                 arguments(new int[][]{
                         {1, 1, 1, 1, 1},
                         {1, 1, 1, 1, 1},
                         {1, 1, 1, 1, 1},
                         {1, 1, 1, 2, 1},
                         {1, 1, 1, 1, 1},
-                }, new Move(2, -2, 0, 3, 3), false)
+                }, new Move(new Coordinate(3, 3), new Coordinate(1, 3)), 2, false)
         );
     }
 }
