@@ -1,8 +1,8 @@
 package com.flederossi.game;
 
 public class Move {
-    protected final Coordinate startPos;
-    protected final Coordinate endPos;
+    public final Coordinate startPos;
+    public final Coordinate endPos;
 
     public Move(Coordinate startPos, Coordinate endPos){
         this.startPos = startPos;
