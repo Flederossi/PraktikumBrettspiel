@@ -30,7 +30,7 @@ public class Board {
         this.board[move.startPos.y][move.startPos.x] = 0;
     }
 
-    protected int[][] getBoard() {
+    public int[][] getBoard() {
         return this.board;
     }
 }

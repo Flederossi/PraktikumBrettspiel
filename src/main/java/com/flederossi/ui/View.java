@@ -1,7 +1,9 @@
-package com.flederossi.game;
+package com.flederossi.ui;
 
-import com.flederossi.interfaces.GUI;
+import com.flederossi.game.Board;
+import com.flederossi.game.Game;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.MouseListener;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Font;
@@ -13,7 +15,9 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 
-public class GameView implements GUI {
+import java.lang.reflect.Method;
+
+public class View implements GUI {
     private final Display display;
     private final Shell shell;
     private final Canvas view;
@@ -23,7 +27,7 @@ public class GameView implements GUI {
 
     private final Color[] colors;
 
-    protected GameView(){
+    public View(){
         this.display = new Display();
         this.shell = new Shell(display, SWT.CLOSE | SWT.TITLE);
 
@@ -47,20 +51,15 @@ public class GameView implements GUI {
     }
 
     @Override
-    public void addMouseListener(MouseListener ml){
-        this.view.addMouseListener(ml);
-    }
-
-    @Override
-    public void updateBoard(int[][] board){
+    public void update(Board board, String info){
         this.view.addPaintListener(paintEvent -> {
             for (int y = 0; y < 5; y++) {
                 for (int x = 0; x < 5; x++) {
-                    paintEvent.gc.setBackground(this.colors[board[y][x]]);
+                    paintEvent.gc.setBackground(this.colors[board.getBoard()[y][x]]);
                     paintEvent.gc.setForeground(this.colors[2]);
-                    int size = GameView.size;
-                    int offsetX = GameView.offsetX;
-                    int offsetY = GameView.offsetY;
+                    int size = View.size;
+                    int offsetX = View.offsetX;
+                    int offsetY = View.offsetY;
                     paintEvent.gc.fillRectangle(x * size + offsetX, y * size + offsetY, size, size);
                     paintEvent.gc.drawRectangle(x * size + offsetX, y * size + offsetY, size, size);
                 }
@@ -68,16 +67,12 @@ public class GameView implements GUI {
         });
         this.view.redraw();
         this.view.update();
+        this.status.setText(info);
     }
 
     @Override
-    public void updateStatus(String content){
-        this.status.setText(content);
-    }
-
-    @Override
-    public int[] getDisplayData(){
-        return new int[]{size, offsetX, offsetY};
+    public void addEvent(MouseListener ml){
+        this.view.addMouseListener(ml);
     }
 
     @Override
@@ -91,5 +86,10 @@ public class GameView implements GUI {
         }
 
         this.display.dispose();
+    }
+
+    @Override
+    public int[] getDisplayData(){
+        return new int[]{size, offsetX, offsetY};
     }
 }

@@ -1,10 +1,12 @@
 package com.flederossi.game;
 
-import com.flederossi.interfaces.GUI;
+import com.flederossi.ui.GUI;
 import com.flederossi.players.AI;
 import com.flederossi.players.Player;
 import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.MouseListener;
+
+import java.lang.reflect.Method;
 
 public class Game {
     protected final GUI ui;
@@ -17,8 +19,8 @@ public class Game {
 
     protected Object[] players;
 
-    protected Game(int[][] boardInit, GUI ui, Object[] players){
-        this.board = new Board(boardInit);
+    public Game(Board board, GUI ui, Object[] players){
+        this.board = board;
         this.winLogic = new WinLogic(this.board.getBoard());
         this.currentPlayer = 2;
         this.gameEnded = false;
@@ -65,23 +67,22 @@ public class Game {
 
             int res = makeChangesForRound(clickX, clickY);
 
-            this.ui.updateBoard(this.board.getBoard());
-            this.ui.updateStatus(convertIDToPlayer(this.currentPlayer) + " ist am Zug");
+            this.ui.update(this.board, convertIDToPlayer(this.currentPlayer) + " ist am Zug");
 
             if (res == -1){
-                this.ui.updateStatus("Zug ungültig");
+                this.ui.update(this.board, "Zug ungültig");
             }
 
             this.winLogic.reloadPosBlack(this.board.getBoard());
             int won = this.winLogic.checkWon(this.board.getBoard());
             if (won > 0) {
-                this.ui.updateStatus(convertIDToPlayer(won) + " hat gewonnen");
+                this.ui.update(this.board, convertIDToPlayer(won) + " hat gewonnen");
                 this.gameEnded = true;
             }
         }
     }
 
-    protected void start(){
+    public void start() {
         MouseListener ml = new MouseListener() {
             @Override
             public void mouseDoubleClick(MouseEvent mouseEvent) {
@@ -99,11 +100,8 @@ public class Game {
             }
         };
 
-        this.ui.addMouseListener(ml);
-
-        this.ui.updateBoard(this.board.getBoard());
-        this.ui.updateStatus(convertIDToPlayer(this.currentPlayer) + " ist am Zug");
-
+        this.ui.addEvent(ml);
+        this.ui.update(this.board, convertIDToPlayer(this.currentPlayer) + " ist am Zug");
         this.ui.start();
     }
 }
