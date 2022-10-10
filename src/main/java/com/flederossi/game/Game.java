@@ -1,15 +1,13 @@
 package com.flederossi.game;
 
-import com.flederossi.ui.GUI;
 import com.flederossi.players.AI;
 import com.flederossi.players.Player;
+import com.flederossi.ui.View;
 import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.MouseListener;
 
-import java.lang.reflect.Method;
-
 public class Game {
-    protected final GUI ui;
+    protected final View ui;
     protected final WinLogic winLogic;
 
     protected final Board board;
@@ -19,7 +17,7 @@ public class Game {
 
     protected Object[] players;
 
-    public Game(int[][] boardInit, GUI ui, Object[] players){
+    public Game(int[][] boardInit, View ui, Object[] players){
         this.board = new Board(boardInit);
         this.winLogic = new WinLogic(this.board.getBoard());
         this.currentPlayer = 2;
@@ -42,24 +40,18 @@ public class Game {
         Move move;
 
         if (this.players[this.currentPlayer - 1] instanceof AI){
-            System.out.println("Called AI");
             move = ((AI) this.players[this.currentPlayer - 1]).generateNextMove(this.currentPlayer, this.board);
         }else{
-            System.out.println("Called Player");
             move = ((Player) this.players[this.currentPlayer - 1]).generateNextMove(clickX, clickY);
         }
 
         if (move != null){
             if (this.board.checkLegalMove(move, this.currentPlayer)){
-                System.out.println("Legal");
                 this.board.applyMove(move);
                 this.switchCurrentPlayer();
             }else{
-                System.out.println("Illegal");
                 return -1;
             }
-        }else{
-            System.out.println("NULL");
         }
 
         return 0;

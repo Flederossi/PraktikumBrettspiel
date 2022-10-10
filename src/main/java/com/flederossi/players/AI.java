@@ -19,6 +19,7 @@ public class AI {
         ArrayList<Integer> neutralMoves = new ArrayList<>();
         Coordinate currentPos;
 
+        // Get all available moves
         for (int y = 0; y < 5; y++) {
             for (int x = 0; x < 5; x++) {
                 currentPos = new Coordinate(x, y);
@@ -41,14 +42,17 @@ public class AI {
         System.out.println("\nFound " + availableMoves.size() + " moves");
 
         boolean foundWinMove = false;
+        // Generate a random move at first
         int index = ThreadLocalRandom.current().nextInt(availableMoves.size());
 
+        // Get win, lose and neutral moves
         for (int i = 0; i < availableMoves.size(); i++){
             board.applyMove(availableMoves.get(i));
             int res = new WinLogic(board.getBoard()).checkWon(board.getBoard());
             board.applyMove(new Move(availableMoves.get(i).endPos, availableMoves.get(i).startPos));
             board.board[availableMoves.get(i).endPos.y][availableMoves.get(i).endPos.x] = id - 1;
             if (res == id){
+                // Make a win move if found
                 index = i;
                 foundWinMove = true;
                 System.out.println("Found move to win");
@@ -60,10 +64,22 @@ public class AI {
             }
         }
 
+        // Make a neutral move if possible
         if (!foundWinMove && neutralMoves.size() > 0){
+            int[] scores = new int[neutralMoves.size()];
+
+            for (int i = 0; i < neutralMoves.size(); i++){
+                if (id == 1){
+                    // TODO Calculate the score of the move for color white
+                }else if (id == 2){
+                    // TODO Calculate the score of the move for color black
+                }
+            }
+
             index = neutralMoves.get(ThreadLocalRandom.current().nextInt(neutralMoves.size()));
         }
 
+        // Print available moves (Debug only)
         for (int i = 0; i < availableMoves.size(); i++){
             if (i == index){
                 System.out.print("> ");

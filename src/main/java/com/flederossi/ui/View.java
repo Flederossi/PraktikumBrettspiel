@@ -17,7 +17,7 @@ import org.eclipse.swt.widgets.Shell;
 
 import java.lang.reflect.Method;
 
-public class View implements GUI {
+public class View {
     private final Display display;
     private final Shell shell;
     private final Canvas view;
@@ -50,7 +50,6 @@ public class View implements GUI {
         this.status.setFont(new Font(this.status.getDisplay(), new FontData("Calibri", 12, SWT.BOLD)));
     }
 
-    @Override
     public void update(Board board, String info){
         this.view.addPaintListener(paintEvent -> {
             for (int y = 0; y < 5; y++) {
@@ -70,12 +69,10 @@ public class View implements GUI {
         this.status.setText(info);
     }
 
-    @Override
     public void addEvent(MouseListener ml){
         this.view.addMouseListener(ml);
     }
 
-    @Override
     public void start(){
         this.shell.open();
 
@@ -88,7 +85,6 @@ public class View implements GUI {
         this.display.dispose();
     }
 
-    @Override
     public int[] getDisplayData(){
         return new int[]{size, offsetX, offsetY};
     }
