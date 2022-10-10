@@ -8,15 +8,15 @@ public class Board {
     }
 
     private int getPlayerTargetField(Move move) {
-        return this.board[move.y + move.shiftY][move.x + move.shiftX];
+        return this.board[move.endPos.y][move.endPos.x];
     }
 
-    public boolean checkLegalMove(Move move) {
-        if (move.x + move.shiftX >= 0 && move.x + move.shiftX <= 4 && move.y + move.shiftY >= 0 && move.y + move.shiftY <= 4) {
+    public boolean checkLegalMove(Move move, int player) {
+        if (move.endPos.x >= 0 && move.endPos.x <= 4 && move.endPos.y >= 0 && move.endPos.y <= 4) {
             // Check if move is diagonal
-            if (move.shiftX == 0 ^ move.shiftY == 0) {
+            if (move.endPos.x - move.startPos.x == 0 ^ move.endPos.y - move.startPos.y == 0) {
                 // Check if move is from the right player to the right field
-                return this.getPlayerTargetField(move) == move.player - 1 && (this.board[move.y][move.x] == move.player) && Math.abs(move.shiftX) < 2 && Math.abs(move.shiftY) < 2;
+                return this.getPlayerTargetField(move) == player - 1 && (this.board[move.startPos.y][move.startPos.x] == player) && Math.abs(move.endPos.x - move.startPos.x) < 2 && Math.abs(move.endPos.y - move.startPos.y) < 2;
             } else {
                 return false;
             }
@@ -26,8 +26,8 @@ public class Board {
     }
 
     public void applyMove(Move move) {
-        this.board[move.y][move.x] = 0;
-        this.board[move.y + move.shiftY][move.x + move.shiftX] = move.player;
+        this.board[move.endPos.y][move.endPos.x] = this.board[move.startPos.y][move.startPos.x];
+        this.board[move.startPos.y][move.startPos.x] = 0;
     }
 
     protected int[][] getBoard() {

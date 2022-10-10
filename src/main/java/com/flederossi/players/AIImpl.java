@@ -1,30 +1,33 @@
 package com.flederossi.players;
 
 import com.flederossi.game.Board;
+import com.flederossi.game.Coordinate;
 import com.flederossi.game.Move;
-import com.flederossi.interfaces.PlayerImpl;
+import com.flederossi.interfaces.Player;
 
 import java.util.ArrayList;
 import java.util.concurrent.ThreadLocalRandom;
 
-public class AI implements PlayerImpl {
+public class AIImpl implements Player {
     @Override
     public Move generateNextMove(int id, int tileX, int tileY, Board board) {
         ArrayList<Move> availableMoves = new ArrayList<>();
+        Coordinate currentPos;
 
         for (int y = 0; y < 5; y++) {
             for (int x = 0; x < 5; x++) {
-                if (board.checkLegalMove(new Move(id, 0, -1, x, y))){
-                    availableMoves.add(new Move(id, 0, -1, x, y));
+                currentPos = new Coordinate(x, y);
+                if (board.checkLegalMove(new Move(currentPos, new Coordinate(x, y - 1)), id)){
+                    availableMoves.add(new Move(currentPos, new Coordinate(x, y - 1)));
                 }
-                if (board.checkLegalMove(new Move(id, 0, 1, x, y))){
-                    availableMoves.add(new Move(id, 0, 1, x, y));
+                if (board.checkLegalMove(new Move(currentPos, new Coordinate(x, y + 1)), id)){
+                    availableMoves.add(new Move(currentPos, new Coordinate(x, y + 1)));
                 }
-                if (board.checkLegalMove(new Move(id, -1, 0, x, y))){
-                    availableMoves.add(new Move(id, -1, 0, x, y));
+                if (board.checkLegalMove(new Move(currentPos, new Coordinate(x - 1, y)), id)){
+                    availableMoves.add(new Move(currentPos, new Coordinate(x - 1, y)));
                 }
-                if (board.checkLegalMove(new Move(id, 1, 0, x, y))){
-                    availableMoves.add(new Move(id, 1, 0, x, y));
+                if (board.checkLegalMove(new Move(currentPos, new Coordinate(x + 1, y)), id)){
+                    availableMoves.add(new Move(currentPos, new Coordinate(x + 1, y)));
                 }
 
             }

@@ -1,19 +1,15 @@
 package com.flederossi.game;
 
 public class Move {
-    protected final int player;
-    protected final int shiftX, shiftY;
-    protected final int x, y;
+    protected final Coordinate startPos;
+    protected final Coordinate endPos;
 
-    public Move(int p, int sX, int sY, int pX, int pY){
-        this.player = p;
-        this.shiftX = sX;
-        this.shiftY = sY;
-        this.x = pX;
-        this.y = pY;
+    public Move(Coordinate startPos, Coordinate endPos){
+        this.startPos = startPos;
+        this.endPos = endPos;
     }
 
     public String debugMove(){
-        return "Move by " + this.player + " from (" + this.x + " | " + this.y + ") with (" + this.shiftX + " | " + this.shiftY + ")";
+        return "Move from (" + this.startPos.x + " | " + this.startPos.y + ") to (" + this.endPos.x + " | " + this.endPos.y + ")";
     }
 }

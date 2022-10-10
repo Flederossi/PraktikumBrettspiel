@@ -1,9 +1,8 @@
 package com.flederossi.game;
 
-import com.flederossi.gamemodes.GameAIAgainstAI;
-import com.flederossi.gamemodes.GamePlayerAgainstAI;
-import com.flederossi.gamemodes.GamePlayerAgainstPlayer;
-import com.flederossi.interfaces.GUIImpl;
+import com.flederossi.interfaces.GUI;
+import com.flederossi.interfaces.Player;
+import com.flederossi.players.AIImpl;
 
 public class GameLauncher {
     public static void main(String[] args){
@@ -15,8 +14,9 @@ public class GameLauncher {
                 {2, 1, 1, 1, 1},
         };
 
-        GUIImpl ui = new GameView();
-        Game game = new GamePlayerAgainstAI(board, ui);
+        GUI ui = new GameView();
+        Player[] players = new Player[]{new AIImpl(), new AIImpl()};
+        Game game = new Game(board, ui, players);
         game.start();
     }
 }

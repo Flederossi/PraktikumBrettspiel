@@ -1,12 +1,12 @@
 package com.flederossi.game;
 
-import com.flederossi.interfaces.GUIImpl;
-import com.flederossi.interfaces.PlayerImpl;
+import com.flederossi.interfaces.GUI;
+import com.flederossi.interfaces.Player;
 import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.MouseListener;
 
-abstract public class Game {
-    protected final GUIImpl ui;
+public class Game {
+    protected final GUI ui;
     protected final WinLogic winLogic;
 
     protected final Board board;
@@ -14,14 +14,16 @@ abstract public class Game {
     protected int currentPlayer;
     protected boolean gameEnded;
 
-    protected PlayerImpl[] players;
+    protected Player[] players;
 
-    protected Game(int[][] boardInit, GUIImpl ui){
+    protected Game(int[][] boardInit, GUI ui, Player[] players){
         this.board = new Board(boardInit);
         this.winLogic = new WinLogic(this.board.getBoard());
         this.currentPlayer = 2;
         this.gameEnded = false;
         this.ui = ui;
+
+        this.players = players;
     }
 
     // Convert the int that represents the player to a string
@@ -34,7 +36,20 @@ abstract public class Game {
     }
 
     protected int makeChangesForRound(int tileX, int tileY) {
-        return -1;
+        Move move;
+
+        move = this.players[this.currentPlayer - 1].generateNextMove(this.currentPlayer, tileX, tileY, this.board);
+
+        if (move != null){
+            if (this.board.checkLegalMove(move, this.currentPlayer)){
+                this.board.applyMove(move);
+                this.switchCurrentPlayer();
+            }else{
+                return -1;
+            }
+        }
+
+        return 0;
     }
 
     // Event when mouse is clicked (main game logic)
