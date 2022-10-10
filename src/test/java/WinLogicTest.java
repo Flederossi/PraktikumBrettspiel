@@ -1,7 +1,9 @@
 import com.flederossi.game.WinLogic;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
+
 import static org.junit.jupiter.params.provider.Arguments.arguments;
+
 import org.junit.jupiter.params.provider.MethodSource;
 
 import java.util.stream.Stream;
@@ -11,7 +13,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class WinLogicTest {
     private final WinLogic winLogic;
 
-    public WinLogicTest(){
+    public WinLogicTest() {
         int[][] boardInit = {
                 {1, 1, 1, 1, 2},
                 {1, 1, 1, 1, 1},
@@ -24,12 +26,12 @@ public class WinLogicTest {
 
     @ParameterizedTest
     @MethodSource("testCases")
-    public void testPlayerWon(int[][] board, int expected){
+    public void testPlayerWon(int[][] board, int expected) {
         this.winLogic.reloadPosBlack(board);
         assertEquals(expected, this.winLogic.checkWon(board));
     }
 
-    private static Stream<Arguments> testCases(){
+    private static Stream<Arguments> testCases() {
         return Stream.of(
                 arguments(new int[][]{
                         {1, 1, 1, 1, 2},

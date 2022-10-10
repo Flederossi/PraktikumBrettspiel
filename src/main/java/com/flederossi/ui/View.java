@@ -27,19 +27,19 @@ public class View {
 
     private final Color[] colors;
 
-    public View(){
+    public View() {
         this.display = new Display();
         this.shell = new Shell(display, SWT.CLOSE | SWT.TITLE);
 
         this.shell.setText("Brettspiel");
-        this.shell.setSize((int)(size * 5.25 + offsetX * 2.5), (int)(size * 5.25 + offsetY * 6.5));
+        this.shell.setSize((int) (size * 5.25 + offsetX * 2.5), (int) (size * 5.25 + offsetY * 6.5));
 
         GridLayout layout = new GridLayout(1, false);
         layout.marginHeight = layout.marginWidth = 0;
 
         this.shell.setLayout(layout);
 
-        this.colors = new Color[] {display.getSystemColor(SWT.COLOR_GRAY), display.getSystemColor(SWT.COLOR_WHITE), display.getSystemColor(SWT.COLOR_BLACK)};
+        this.colors = new Color[]{display.getSystemColor(SWT.COLOR_GRAY), display.getSystemColor(SWT.COLOR_WHITE), display.getSystemColor(SWT.COLOR_BLACK)};
 
         this.view = new Canvas(this.shell, SWT.NONE);
         this.view.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
@@ -50,7 +50,7 @@ public class View {
         this.status.setFont(new Font(this.status.getDisplay(), new FontData("Calibri", 12, SWT.BOLD)));
     }
 
-    public void update(Board board, String info){
+    public void update(Board board, String info) {
         this.view.addPaintListener(paintEvent -> {
             for (int y = 0; y < 5; y++) {
                 for (int x = 0; x < 5; x++) {
@@ -69,15 +69,15 @@ public class View {
         this.status.setText(info);
     }
 
-    public void addEvent(MouseListener ml){
+    public void addEvent(MouseListener ml) {
         this.view.addMouseListener(ml);
     }
 
-    public void start(){
+    public void start() {
         this.shell.open();
 
-        while (!this.shell.isDisposed()){
-            if (!this.display.readAndDispatch()){
+        while (!this.shell.isDisposed()) {
+            if (!this.display.readAndDispatch()) {
                 this.display.sleep();
             }
         }
@@ -85,7 +85,7 @@ public class View {
         this.display.dispose();
     }
 
-    public int[] getDisplayData(){
+    public int[] getDisplayData() {
         return new int[]{size, offsetX, offsetY};
     }
 }

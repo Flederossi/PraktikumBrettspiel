@@ -17,7 +17,7 @@ public class Game {
 
     protected Object[] players;
 
-    public Game(int[][] boardInit, View ui, Object[] players){
+    public Game(int[][] boardInit, View ui, Object[] players) {
         this.board = new Board(boardInit);
         this.winLogic = new WinLogic(this.board.getBoard());
         this.currentPlayer = 2;
@@ -28,28 +28,28 @@ public class Game {
     }
 
     // Convert the int that represents the player to a string
-    protected String convertIDToPlayer(int player){
+    protected String convertIDToPlayer(int player) {
         return player == 1 ? "Weiß" : "Schwarz";
     }
 
-    protected void switchCurrentPlayer(){
+    protected void switchCurrentPlayer() {
         this.currentPlayer = this.currentPlayer == 1 ? 2 : 1;
     }
 
     protected int makeChangesForRound(int clickX, int clickY) {
         Move move;
 
-        if (this.players[this.currentPlayer - 1] instanceof AI){
+        if (this.players[this.currentPlayer - 1] instanceof AI) {
             move = ((AI) this.players[this.currentPlayer - 1]).generateNextMove(this.currentPlayer, this.board);
-        }else{
+        } else {
             move = ((Player) this.players[this.currentPlayer - 1]).generateNextMove(clickX, clickY);
         }
 
-        if (move != null){
-            if (this.board.checkLegalMove(move, this.currentPlayer)){
+        if (move != null) {
+            if (this.board.checkLegalMove(move, this.currentPlayer)) {
                 this.board.applyMove(move);
                 this.switchCurrentPlayer();
-            }else{
+            } else {
                 return -1;
             }
         }
@@ -67,7 +67,7 @@ public class Game {
 
             this.ui.update(this.board, convertIDToPlayer(this.currentPlayer) + " ist am Zug");
 
-            if (res == -1){
+            if (res == -1) {
                 this.ui.update(this.board, "Zug ungültig");
             }
 

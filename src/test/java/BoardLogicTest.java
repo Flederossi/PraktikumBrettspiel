@@ -4,16 +4,19 @@ import com.flederossi.game.Move;
 import org.junit.jupiter.params.ParameterizedTest;
 
 import static org.junit.jupiter.params.provider.Arguments.arguments;
+
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
+
 import java.util.stream.Stream;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class BoardLogicTest {
 
     private Board board;
 
-    public BoardLogicTest(){
+    public BoardLogicTest() {
         int[][] boardInit = {
                 {1, 1, 1, 1, 2},
                 {1, 1, 1, 1, 1},
@@ -26,12 +29,12 @@ public class BoardLogicTest {
 
     @ParameterizedTest
     @MethodSource("testCases")
-    public void testLegalMoves(int[][] board, Move move, int player, boolean expected){
+    public void testLegalMoves(int[][] board, Move move, int player, boolean expected) {
         this.board = new Board(board);
         assertEquals(expected, this.board.checkLegalMove(move, player));
     }
 
-    private static Stream<Arguments> testCases(){
+    private static Stream<Arguments> testCases() {
         return Stream.of(
                 arguments(new int[][]{
                         {1, 1, 1, 0, 2},

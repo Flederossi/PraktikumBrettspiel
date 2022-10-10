@@ -6,7 +6,7 @@ import com.flederossi.players.Player;
 import com.flederossi.ui.View;
 
 public class GameLauncher {
-    public static void main(String[] args){
+    public static void main(String[] args) {
         int[][] boardInit = {
                 {1, 1, 1, 1, 2},
                 {1, 1, 1, 1, 1},

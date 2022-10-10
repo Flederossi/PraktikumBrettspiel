@@ -20,7 +20,7 @@ public class Board {
             } else {
                 return false;
             }
-        }else{
+        } else {
             return false;
         }
     }
@@ -30,7 +30,7 @@ public class Board {
         this.board[move.startPos.y][move.startPos.x] = 0;
     }
 
-    public void setBoard(int[][] newBoard){
+    public void setBoard(int[][] newBoard) {
         this.board = newBoard;
     }
 
