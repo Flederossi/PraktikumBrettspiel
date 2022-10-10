@@ -71,12 +71,24 @@ public class AI {
             for (int i = 0; i < neutralMoves.size(); i++){
                 if (id == 1){
                     // TODO Calculate the score of the move for color white
+                    scores[i] = 0;
                 }else if (id == 2){
-                    // TODO Calculate the score of the move for color black
+                    // Calculate the score of every neutral move of black using (Number of empty neighbour fields) - (Number of black pieces on the same x or y)
+                    scores[i] = countEmptyNeighbourFields(availableMoves.get(neutralMoves.get(i)).endPos, board.getBoard()) - countBlackOnLine(availableMoves.get(neutralMoves.get(i)).endPos, board.getBoard());
                 }
             }
 
-            index = neutralMoves.get(ThreadLocalRandom.current().nextInt(neutralMoves.size()));
+            System.out.println(Arrays.toString(Arrays.stream(scores).toArray()));
+
+            // Pick the best neutral move by their scores
+            int maxIndex = 0;
+            for (int i = 0; i < scores.length; i++){
+                if (scores[i] > scores[maxIndex]){
+                    maxIndex = i;
+                }
+            }
+
+            index = neutralMoves.get(maxIndex);
         }
 
         // Print available moves (Debug only)
@@ -88,5 +100,37 @@ public class AI {
         }
 
         return availableMoves.get(index);
+    }
+
+    int countEmptyNeighbourFields(Coordinate pos, int[][] board){
+        int tX = pos.x;
+        int tY = pos.y;
+        int count = 1;
+
+        boolean[] fields = {tY <= 0 || board[tY - 1][tX] == 0, tY >= 4 || board[tY + 1][tX] == 0, tX <= 0 || board[tY][tX - 1] == 0, tX >= 4 || board[tY][tX + 1] == 0};
+
+        for (int i = 0; i < 4; i++){
+            if (fields[i]){
+                count++;
+            }
+        }
+
+        return count;
+    }
+
+    int countBlackOnLine(Coordinate pos, int[][] board){
+        int tX = pos.x;
+        int tY = pos.y;
+        int count = -1;
+
+        for (int y = 0; y < 5; y++){
+            for (int x = 0; x < 5; x++){
+                if (board[y][x] == 2 && (x == tX || y == tY)){
+                    count++;
+                }
+            }
+        }
+
+        return count;
     }
 }
