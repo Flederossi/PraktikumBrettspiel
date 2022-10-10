@@ -1,7 +1,8 @@
 package com.flederossi.game;
 
 import com.flederossi.interfaces.GUI;
-import com.flederossi.interfaces.Player;
+import com.flederossi.players.AI;
+import com.flederossi.players.Player;
 import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.MouseListener;
 
@@ -14,9 +15,9 @@ public class Game {
     protected int currentPlayer;
     protected boolean gameEnded;
 
-    protected Player[] players;
+    protected Object[] players;
 
-    protected Game(int[][] boardInit, GUI ui, Player[] players){
+    protected Game(int[][] boardInit, GUI ui, Object[] players){
         this.board = new Board(boardInit);
         this.winLogic = new WinLogic(this.board.getBoard());
         this.currentPlayer = 2;
@@ -35,10 +36,14 @@ public class Game {
         this.currentPlayer = this.currentPlayer == 1 ? 2 : 1;
     }
 
-    protected int makeChangesForRound(int tileX, int tileY) {
+    protected int makeChangesForRound(int clickX, int clickY) {
         Move move;
 
-        move = this.players[this.currentPlayer - 1].generateNextMove(this.currentPlayer, tileX, tileY, this.board);
+        if (this.players[this.currentPlayer - 1] instanceof AI){
+            move = ((AI) this.players[this.currentPlayer - 1]).generateNextMove(this.currentPlayer, this.board);
+        }else{
+            move = ((Player) this.players[this.currentPlayer - 1]).generateNextMove(clickX, clickY);
+        }
 
         if (move != null){
             if (this.board.checkLegalMove(move, this.currentPlayer)){
@@ -55,14 +60,10 @@ public class Game {
     // Event when mouse is clicked (main game logic)
     protected void onMouseEvent(MouseEvent mouseEvent) {
         if (!this.gameEnded) {
-            int res = 0;
+            int clickX = (int) Math.ceil((float) ((mouseEvent.x - this.ui.getDisplayData()[1]) / this.ui.getDisplayData()[0]));
+            int clickY = (int) Math.ceil((float) ((mouseEvent.y - this.ui.getDisplayData()[2]) / this.ui.getDisplayData()[0]));
 
-            int tileX = (int) Math.ceil((float) ((mouseEvent.x - this.ui.getDisplayData()[1]) / this.ui.getDisplayData()[0]));
-            int tileY = (int) Math.ceil((float) ((mouseEvent.y - this.ui.getDisplayData()[2]) / this.ui.getDisplayData()[0]));
-
-            if (tileX < 5 && tileY < 5) {
-                res = makeChangesForRound(tileX, tileY);
-            }
+            int res = makeChangesForRound(clickX, clickY);
 
             this.ui.updateBoard(this.board.getBoard());
             this.ui.updateStatus(convertIDToPlayer(this.currentPlayer) + " ist am Zug");

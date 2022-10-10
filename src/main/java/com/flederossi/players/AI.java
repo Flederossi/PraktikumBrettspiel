@@ -3,14 +3,12 @@ package com.flederossi.players;
 import com.flederossi.game.Board;
 import com.flederossi.game.Coordinate;
 import com.flederossi.game.Move;
-import com.flederossi.interfaces.Player;
 
 import java.util.ArrayList;
 import java.util.concurrent.ThreadLocalRandom;
 
-public class AIImpl implements Player {
-    @Override
-    public Move generateNextMove(int id, int tileX, int tileY, Board board) {
+public class AI {
+    public Move generateNextMove(int id, Board board) {
         ArrayList<Move> availableMoves = new ArrayList<>();
         Coordinate currentPos;
 

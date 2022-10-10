@@ -4,23 +4,22 @@ import com.flederossi.game.Board;
 import com.flederossi.game.Coordinate;
 import com.flederossi.game.Move;
 
-public class PlayerImpl implements com.flederossi.interfaces.Player {
+public class Player {
     public int firstX, firstY;
     private boolean firstClick;
 
-    public PlayerImpl(){
+    public Player(){
         this.firstClick = false;
     }
 
-    @Override
-    public Move generateNextMove(int id, int tileX, int tileY, Board board){
+    public Move generateNextMove(int clickX, int clickY){
         Move nextMove;
 
         if (firstClick) {
-            nextMove = new Move(new Coordinate(this.firstX, this.firstY), new Coordinate(tileX, tileY));
+            nextMove = new Move(new Coordinate(this.firstX, this.firstY), new Coordinate(clickX, clickY));
         }else{
-            this.firstX = tileX;
-            this.firstY = tileY;
+            this.firstX = clickX;
+            this.firstY = clickY;
             nextMove = null;
         }
 
