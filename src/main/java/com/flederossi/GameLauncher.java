@@ -1,5 +1,6 @@
 package com.flederossi;
 
+import com.flederossi.game.Board;
 import com.flederossi.game.Game;
 import com.flederossi.players.AI;
 import com.flederossi.players.Player;
@@ -15,10 +16,13 @@ public class GameLauncher {
                 {2, 1, 1, 1, 1},
         };
 
-        View ui = new View();
+        Board model = new Board(boardInit);
+        View view = new View();
+
         // players[0] -> Player White | players[1] -> Player Black
-        Object[] players = new Object[]{new Player(), new AI()};
-        Game game = new Game(boardInit, ui, players);
+        Object[] players = new Object[]{new AI(), new Player()};
+
+        Game game = new Game(model, view, players);
         game.start();
     }
 }

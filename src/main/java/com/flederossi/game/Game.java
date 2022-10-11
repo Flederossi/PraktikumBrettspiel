@@ -17,8 +17,8 @@ public class Game {
 
     protected Object[] players;
 
-    public Game(int[][] boardInit, View ui, Object[] players) {
-        this.board = new Board(boardInit);
+    public Game(Board board, View ui, Object[] players) {
+        this.board = board;
         this.winLogic = new WinLogic(this.board.getBoard());
         this.currentPlayer = 2;
         this.gameEnded = false;
@@ -57,6 +57,14 @@ public class Game {
         return 0;
     }
 
+    void updateUI(){
+        if (this.players[this.currentPlayer - 1] instanceof AI) {
+            this.ui.update(this.board, convertIDToPlayer(this.currentPlayer) + " ist am Zug (Klicken)");
+        }else{
+            this.ui.update(this.board, convertIDToPlayer(this.currentPlayer) + " ist am Zug");
+        }
+    }
+
     // Event when mouse is clicked (main game logic)
     protected void onMouseEvent(MouseEvent mouseEvent) {
         if (!this.gameEnded) {
@@ -65,7 +73,7 @@ public class Game {
 
             int res = makeChangesForRound(clickX, clickY);
 
-            this.ui.update(this.board, convertIDToPlayer(this.currentPlayer) + " ist am Zug");
+            updateUI();
 
             if (res == -1) {
                 this.ui.update(this.board, "Zug ungültig");
@@ -74,9 +82,11 @@ public class Game {
             this.winLogic.reloadPosBlack(this.board.getBoard());
             int won = this.winLogic.checkWon(this.board.getBoard());
             if (won > 0) {
-                this.ui.update(this.board, convertIDToPlayer(won) + " hat gewonnen");
+                this.ui.update(this.board, convertIDToPlayer(won) + " hat gewonnen (Klicken)");
                 this.gameEnded = true;
             }
+        }else{
+            restart();
         }
     }
 
@@ -99,7 +109,20 @@ public class Game {
         };
 
         this.ui.addEvent(ml);
-        this.ui.update(this.board, convertIDToPlayer(this.currentPlayer) + " ist am Zug");
+        updateUI();
         this.ui.start();
+    }
+
+    public void restart(){
+        this.board.setBoard(new int[][]{
+                {1, 1, 1, 1, 2},
+                {1, 1, 1, 1, 1},
+                {1, 1, 2, 1, 1},
+                {1, 1, 1, 1, 1},
+                {2, 1, 1, 1, 1},
+        });
+        this.currentPlayer = 2;
+        this.gameEnded = false;
+        updateUI();
     }
 }
