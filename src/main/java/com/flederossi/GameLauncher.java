@@ -20,7 +20,7 @@ public class GameLauncher {
         View view = new View();
 
         // players[0] -> Player White | players[1] -> Player Black
-        Object[] players = new Object[]{new Player(), new AI()};
+        Object[] players = new Object[]{new Player(), new Player()};
 
         Game game = new Game(model, view, players);
         game.start();

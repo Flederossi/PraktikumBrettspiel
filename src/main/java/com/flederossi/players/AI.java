@@ -45,9 +45,13 @@ public class AI {
         int res = new WinLogic(board.getBoard()).checkWon(board.getBoard());
 
         if (res == id){
-            return 10;
+            return 2;
         }else if (res == -id + 3){
-            return -10;
+            return -2;
+        }
+
+        if (depth < 1){
+            return 0;
         }
 
         ArrayList<Move> availableMoves;
@@ -56,16 +60,14 @@ public class AI {
         if (max) {
             availableMoves = getAvailableMoves(id, board);
 
-            best = -1000;
+            best = -1;
 
             for (Move availableMove : availableMoves) {
 
                 Board testBoard = new Board(generateTestBoardArray(board));
                 testBoard.applyMove(availableMove);
 
-                if (depth > 0) {
-                    best = Math.max(best, minimax(testBoard, id, depth - 1, false, alpha, beta));
-                }
+                best = Math.max(best, minimax(testBoard, id, depth - 1, false, alpha, beta));
 
                 alpha = Math.max(alpha, best);
                 if (best >= beta){
@@ -76,16 +78,14 @@ public class AI {
         }else{
             availableMoves = getAvailableMoves(-id + 3, board);
 
-            best = 1000;
+            best = 1;
 
             for (Move availableMove : availableMoves) {
 
                 Board testBoard = new Board(generateTestBoardArray(board));
                 testBoard.applyMove(availableMove);
 
-                if (depth > 0) {
-                    best = Math.min(best, minimax(testBoard, id, depth - 1, true, alpha, beta));
-                }
+                best = Math.min(best, minimax(testBoard, id, depth - 1, true, alpha, beta));
 
                 beta = Math.min(beta, best);
                 if (best <= alpha){
@@ -100,18 +100,18 @@ public class AI {
     public Move generateNextMove(int id, Board board) {
         ArrayList<Move> availableMoves = getAvailableMoves(id, board);
 
-        int bestValue = -1000;
-        Move bestMove = availableMoves.get(0);
+        int bestValue = -2;
+        Move bestMove = new Move(new Coordinate(0, 0), new Coordinate(0, 0));
 
-        for (int i = 1; i < availableMoves.size(); i++){
+        for (int i = 0; i < availableMoves.size(); i++){
             Board testBoard = new Board(generateTestBoardArray(board));
             testBoard.applyMove(availableMoves.get(i));
 
-            int moveValue = minimax(testBoard, id, 12, false, -1000, 1000);
+            int moveValue = minimax(testBoard, id, 13, false, -1, 1);
 
             System.out.println("Found score: " + moveValue + " for move: (" + availableMoves.get(i).startPos.x + "|" + availableMoves.get(i).startPos.y + ") -> (" + availableMoves.get(i).endPos.x + "|" + availableMoves.get(i).endPos.y + ")");
 
-            if (moveValue > bestValue){
+            if (i == 0 || moveValue > bestValue){
                 bestValue = moveValue;
                 bestMove = availableMoves.get(i);
             }
