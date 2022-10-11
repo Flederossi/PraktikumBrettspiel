@@ -40,6 +40,7 @@ public class Game {
         Move move;
 
         if (this.players[this.currentPlayer - 1] instanceof AI) {
+            this.ui.update(this.board, "Berechnung...");
             move = ((AI) this.players[this.currentPlayer - 1]).generateNextMove(this.currentPlayer, this.board);
         } else {
             move = ((Player) this.players[this.currentPlayer - 1]).generateNextMove(clickX, clickY);

@@ -41,7 +41,7 @@ public class AI {
         return testBoardArray;
     }
 
-    private int minimax(Board board, int id, int depth, boolean max){
+    private int minimax(Board board, int id, int depth, boolean max, int alpha, int beta){
         int res = new WinLogic(board.getBoard()).checkWon(board.getBoard());
 
         if (res == id){
@@ -64,7 +64,12 @@ public class AI {
                 testBoard.applyMove(availableMove);
 
                 if (depth > 0) {
-                    best = Math.max(best, minimax(testBoard, id, depth - 1, false));
+                    best = Math.max(best, minimax(testBoard, id, depth - 1, false, alpha, beta));
+                }
+
+                alpha = Math.max(alpha, best);
+                if (best >= beta){
+                    break;
                 }
             }
 
@@ -79,7 +84,12 @@ public class AI {
                 testBoard.applyMove(availableMove);
 
                 if (depth > 0) {
-                    best = Math.min(best, minimax(testBoard, id, depth - 1, true));
+                    best = Math.min(best, minimax(testBoard, id, depth - 1, true, alpha, beta));
+                }
+
+                beta = Math.min(beta, best);
+                if (best <= alpha){
+                    break;
                 }
             }
 
@@ -97,7 +107,9 @@ public class AI {
             Board testBoard = new Board(generateTestBoardArray(board));
             testBoard.applyMove(availableMoves.get(i));
 
-            int moveValue = minimax(testBoard, id, 6, false);
+            int moveValue = minimax(testBoard, id, 12, false, -1000, 1000);
+
+            System.out.println("Found score: " + moveValue + " for move: (" + availableMoves.get(i).startPos.x + "|" + availableMoves.get(i).startPos.y + ") -> (" + availableMoves.get(i).endPos.x + "|" + availableMoves.get(i).endPos.y + ")");
 
             if (moveValue > bestValue){
                 bestValue = moveValue;
