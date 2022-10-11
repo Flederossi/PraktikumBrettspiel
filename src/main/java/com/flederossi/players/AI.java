@@ -100,6 +100,8 @@ public class AI {
     public Move generateNextMove(int id, Board board) {
         ArrayList<Move> availableMoves = getAvailableMoves(id, board);
 
+        System.out.println("");
+
         int bestValue = -2;
         Move bestMove = new Move(new Coordinate(0, 0), new Coordinate(0, 0));
 
@@ -107,7 +109,7 @@ public class AI {
             Board testBoard = new Board(generateTestBoardArray(board));
             testBoard.applyMove(availableMoves.get(i));
 
-            int moveValue = minimax(testBoard, id, 13, false, -1, 1);
+            int moveValue = minimax(testBoard, id, 10, false, -1, 1);
 
             System.out.println("Found score: " + moveValue + " for move: (" + availableMoves.get(i).startPos.x + "|" + availableMoves.get(i).startPos.y + ") -> (" + availableMoves.get(i).endPos.x + "|" + availableMoves.get(i).endPos.y + ")");
 
