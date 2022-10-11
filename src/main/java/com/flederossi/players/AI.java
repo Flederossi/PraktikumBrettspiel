@@ -3,23 +3,11 @@ package com.flederossi.players;
 import com.flederossi.game.*;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.concurrent.ThreadLocalRandom;
 
 public class AI {
-
-    void printMainBoard(Board board) {
-        for (int i = 0; i < board.getBoard().length; i++) {
-            System.out.println(Arrays.toString(board.getBoard()[i]));
-        }
-    }
-
-    public Move generateNextMove(int id, Board board) {
+    private ArrayList<Move> getAvailableMoves(int id, Board board){
         ArrayList<Move> availableMoves = new ArrayList<>();
-        ArrayList<Integer> neutralMoves = new ArrayList<>();
         Coordinate currentPos;
-
-        // Get all available moves
         for (int y = 0; y < 5; y++) {
             for (int x = 0; x < 5; x++) {
                 currentPos = new Coordinate(x, y);
@@ -38,105 +26,85 @@ public class AI {
 
             }
         }
-
-        System.out.println("\nFound " + availableMoves.size() + " moves");
-
-        boolean foundWinMove = false;
-        // Generate a random move at first
-        int index = ThreadLocalRandom.current().nextInt(availableMoves.size());
-
-        // Get win, lose and neutral moves
-        for (int i = 0; i < availableMoves.size(); i++) {
-            board.applyMove(availableMoves.get(i));
-            int res = new WinLogic(board.getBoard()).checkWon(board.getBoard());
-            board.applyMove(new Move(availableMoves.get(i).endPos, availableMoves.get(i).startPos));
-            board.board[availableMoves.get(i).endPos.y][availableMoves.get(i).endPos.x] = id - 1;
-            if (res == id) {
-                // Make a win move if found
-                index = i;
-                foundWinMove = true;
-                System.out.println("Found move to win");
-                break;
-            } else if (res == 0) {
-                neutralMoves.add(i);
-            } else {
-                System.out.println("Found move to lose");
-            }
-        }
-
-        // Make a neutral move if possible
-        if (!foundWinMove && neutralMoves.size() > 0) {
-            System.out.println("Found only neutral moves");
-            int[] scores = new int[neutralMoves.size()];
-
-            for (int i = 0; i < neutralMoves.size(); i++) {
-                if (id == 1) {
-                    // TODO Find a better formula for the score of the white player
-                    // Calculate the score of every neutral move of black using (Number of black neighbour fields) + (Number of black pieces on the same x or y)
-                    scores[i] = countNeighbourFields(availableMoves.get(neutralMoves.get(i)).endPos, board.getBoard(), 1) + countBlackOnLine(availableMoves.get(neutralMoves.get(i)).endPos, board.getBoard(), 1);
-                } else if (id == 2) {
-                    // Calculate the score of every neutral move of black using (Number of empty neighbour fields) - (Number of black pieces on the same x or y)
-                    scores[i] = countNeighbourFields(availableMoves.get(neutralMoves.get(i)).endPos, board.getBoard(), 2) - countBlackOnLine(availableMoves.get(neutralMoves.get(i)).endPos, board.getBoard(), 2);
-                }
-            }
-
-            System.out.println("Scores: " + Arrays.toString(Arrays.stream(scores).toArray()));
-
-            // Pick the best neutral move by their scores
-            int maxIndex = 0;
-            for (int i = 0; i < scores.length; i++) {
-                if (scores[i] > scores[maxIndex]) {
-                    maxIndex = i;
-                }
-            }
-
-            index = neutralMoves.get(maxIndex);
-        }
-
-        // Print available moves (Debug only)
-        for (int i = 0; i < availableMoves.size(); i++) {
-            if (i == index) {
-                System.out.print("> ");
-            }
-            System.out.println(availableMoves.get(i).debugMove());
-        }
-
-        return availableMoves.get(index);
+        return availableMoves;
     }
 
-    int countNeighbourFields(Coordinate pos, int[][] board, int id) {
-        int tX = pos.x;
-        int tY = pos.y;
-        int count = id == 2 ? 1 : 0;
+    private int[][] generateTestBoardArray(Board board){
+        int[][] testBoardArray = new int[5][5];
 
-        boolean[] fields;
+        for (int y = 0; y < 5; y++){
+            for (int x = 0; x < 5; x++){
+                testBoardArray[y][x] = board.board[y][x];
+            }
+        }
 
-        if (id == 2) {
-            fields = new boolean[]{tY <= 0 || board[tY - 1][tX] == 0, tY >= 4 || board[tY + 1][tX] == 0, tX <= 0 || board[tY][tX - 1] == 0, tX >= 4 || board[tY][tX + 1] == 0};
+        return testBoardArray;
+    }
+
+    private int minimax(Board board, int id, int depth, boolean max){
+        int res = new WinLogic(board.getBoard()).checkWon(board.getBoard());
+
+        if (res == id){
+            return 10;
+        }else if (res == -id + 3){
+            return -10;
+        }
+
+        ArrayList<Move> availableMoves;
+        int best;
+
+        if (max) {
+            availableMoves = getAvailableMoves(id, board);
+
+            best = -1000;
+
+            for (Move availableMove : availableMoves) {
+
+                Board testBoard = new Board(generateTestBoardArray(board));
+                testBoard.applyMove(availableMove);
+
+                if (depth > 0) {
+                    best = Math.max(best, minimax(testBoard, id, depth - 1, false));
+                }
+            }
+
         }else{
-            fields = new boolean[]{tY > 0 && board[tY - 1][tX] == 2, tY < 4 && board[tY + 1][tX] == 2, tX > 0 && board[tY][tX - 1] == 2, tX < 4 && board[tY][tX + 1] == 2};
-        }
+            availableMoves = getAvailableMoves(-id + 3, board);
 
-        for (int i = 0; i < 4; i++) {
-            if (fields[i]) {
-                count++;
-            }
-        }
-        return count;
-    }
+            best = 1000;
 
-    int countBlackOnLine(Coordinate pos, int[][] board, int id) {
-        int tX = pos.x;
-        int tY = pos.y;
-        int count = id == 2 ? -1 : 0;
+            for (Move availableMove : availableMoves) {
 
-        for (int y = 0; y < 5; y++) {
-            for (int x = 0; x < 5; x++) {
-                if (board[y][x] == 2 && (x == tX || y == tY)) {
-                    count++;
+                Board testBoard = new Board(generateTestBoardArray(board));
+                testBoard.applyMove(availableMove);
+
+                if (depth > 0) {
+                    best = Math.min(best, minimax(testBoard, id, depth - 1, true));
                 }
             }
+
         }
-        return count;
+        return best;
+    }
+
+    public Move generateNextMove(int id, Board board) {
+        ArrayList<Move> availableMoves = getAvailableMoves(id, board);
+
+        int bestValue = -1000;
+        Move bestMove = availableMoves.get(0);
+
+        for (int i = 1; i < availableMoves.size(); i++){
+            Board testBoard = new Board(generateTestBoardArray(board));
+            testBoard.applyMove(availableMoves.get(i));
+
+            int moveValue = minimax(testBoard, id, 6, false);
+
+            if (moveValue > bestValue){
+                bestValue = moveValue;
+                bestMove = availableMoves.get(i);
+            }
+        }
+
+        return bestMove;
     }
 }

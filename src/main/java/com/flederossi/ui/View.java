@@ -1,9 +1,7 @@
 package com.flederossi.ui;
 
 import com.flederossi.game.Board;
-import com.flederossi.game.Game;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.MouseListener;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Font;
@@ -14,8 +12,6 @@ import org.eclipse.swt.widgets.Canvas;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
-
-import java.lang.reflect.Method;
 
 public class View {
     private final Display display;

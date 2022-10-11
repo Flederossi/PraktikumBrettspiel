@@ -1,6 +1,5 @@
 package com.flederossi.players;
 
-import com.flederossi.game.Board;
 import com.flederossi.game.Coordinate;
 import com.flederossi.game.Move;
 
