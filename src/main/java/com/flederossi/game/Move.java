@@ -8,8 +8,4 @@ public class Move {
         this.startPos = startPos;
         this.endPos = endPos;
     }
-
-    public String debugMove() {
-        return "Move from (" + this.startPos.x + " | " + this.startPos.y + ") to (" + this.endPos.x + " | " + this.endPos.y + ")";
-    }
 }

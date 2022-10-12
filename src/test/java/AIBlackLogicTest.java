@@ -14,19 +14,19 @@ import static org.junit.jupiter.params.provider.Arguments.arguments;
 public class AIBlackLogicTest {
     private final AI ai;
 
-    public AIBlackLogicTest(){
+    public AIBlackLogicTest() {
         this.ai = new AI();
     }
 
     @ParameterizedTest
     @MethodSource("testCases")
-    public void testAIOutput(Board board, int[] expected){
+    public void testAIOutput(Board board, int[] expected) {
         Move move = this.ai.generateNextMove(2, board);
         int[] res = {move.startPos.x, move.startPos.y, move.endPos.x, move.endPos.y};
         assertArrayEquals(expected, res);
     }
 
-    private static Stream<Arguments> testCases(){
+    private static Stream<Arguments> testCases() {
         return Stream.of(
                 arguments(new Board(new int[][]{
                         {2, 0, 0, 1, 1},
@@ -41,7 +41,28 @@ public class AIBlackLogicTest {
                         {2, 0, 0, 0, 0},
                         {1, 1, 0, 0, 2},
                         {1, 1, 1, 0, 0},
-                }), new int[]{0, 2, 0, 1})
+                }), new int[]{0, 2, 0, 1}),
+                arguments(new Board(new int[][]{
+                        {1, 1, 1, 1, 2},
+                        {1, 1, 1, 1, 1},
+                        {1, 1, 2, 1, 1},
+                        {1, 1, 1, 1, 1},
+                        {2, 1, 1, 1, 1},
+                }), new int[]{4, 0, 4, 1}),
+                arguments(new Board(new int[][]{
+                        {2, 0, 0, 0, 0},
+                        {0, 1, 1, 0, 0},
+                        {1, 2, 0, 0, 0},
+                        {0, 0, 0, 0, 0},
+                        {2, 0, 0, 0, 0},
+                }), new int[]{1, 2, 1, 1}),
+                arguments(new Board(new int[][]{
+                        {0, 0, 0, 0, 0},
+                        {0, 0, 2, 0, 0},
+                        {1, 0, 0, 0, 0},
+                        {1, 2, 0, 0, 0},
+                        {1, 1, 0, 2, 0},
+                }), new int[]{1, 3, 1, 4})
         );
     }
 }

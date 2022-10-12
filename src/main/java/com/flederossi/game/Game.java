@@ -58,10 +58,10 @@ public class Game {
         return 0;
     }
 
-    void updateUI(){
+    void updateUI() {
         if (this.players[this.currentPlayer - 1] instanceof AI) {
             this.ui.update(this.board, convertIDToPlayer(this.currentPlayer) + " ist am Zug (Klicken)");
-        }else{
+        } else {
             this.ui.update(this.board, convertIDToPlayer(this.currentPlayer) + " ist am Zug");
         }
     }
@@ -86,7 +86,7 @@ public class Game {
                 this.ui.update(this.board, convertIDToPlayer(won) + " hat gewonnen (Klicken)");
                 this.gameEnded = true;
             }
-        }else{
+        } else {
             restart();
         }
     }
@@ -114,7 +114,7 @@ public class Game {
         this.ui.start();
     }
 
-    public void restart(){
+    public void restart() {
         this.board.setBoard(new int[][]{
                 {1, 1, 1, 1, 2},
                 {1, 1, 1, 1, 1},
