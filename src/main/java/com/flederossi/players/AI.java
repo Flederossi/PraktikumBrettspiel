@@ -58,7 +58,7 @@ public class AI {
             maxCount = calculatedValues[2];
             count = new int[]{0, 0};
         }
-        heuristicValue = maxCount * (-2 * id + 3); // -1 if id == 2 | 1 if id == 1
+        heuristicValue = (maxCount - 1) * (-2 * id + 3); // -1 if id == 2 | 1 if id == 1
         return heuristicValue;
     }
 
@@ -98,7 +98,7 @@ public class AI {
         // Check terminating state of the recursion
         int res = new WinLogic(board.getBoard()).checkWon(board.getBoard());
         if (res != 0){
-            return res == id ? 5 : -5;
+            return res == id ? 3 : -3;
         }
         if (depth < 1) {
             return calculateHeuristicValue(id, board);
