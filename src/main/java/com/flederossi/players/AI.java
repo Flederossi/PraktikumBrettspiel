@@ -94,7 +94,7 @@ public class AI {
     }
 
     private int minimax(Board board, int id, int depth, boolean max, int alpha, int beta) {
-        // Check terminating state of the recursion
+        // Check terminating state of the recursion (Player won || Reached depth)
         int res = new WinLogic(board.getBoard()).checkWon(board.getBoard());
         if (res != 0) {
             return res == id ? 3 : -3;
