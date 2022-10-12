@@ -3,10 +3,11 @@ package com.flederossi.players;
 import com.flederossi.game.*;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class AI {
-    private ArrayList<Move> getAvailableMoves(int id, Board board){
-        ArrayList<Move> availableMoves = new ArrayList<>();
+    private List<Move> getAvailableMoves(int id, Board board){
+        List<Move> availableMoves = new ArrayList<>();
         Coordinate currentPos;
         for (int y = 0; y < 5; y++) {
             for (int x = 0; x < 5; x++) {
@@ -45,32 +46,26 @@ public class AI {
         int heuristicValue;
 
         int maxCount = 0;
-        int count = 0;
+        int[] count = {0, 0};
 
         int[][] boardArray = board.getBoard();
 
-        for (int y = 0; y < 5; y++){
-            for (int x = 0; x < 5; x++){
-                if (boardArray[y][x] == 2){
-                    count++;
+        for (int i = 0; i < 5; i++){
+            for (int j = 0; j < 5; j++){
+                if (boardArray[i][j] == 2){
+                    count[0]++;
+                }
+                if (boardArray[j][i] == 2){
+                    count[1]++;
                 }
             }
-            if (maxCount < count){
-                maxCount = count;
+            if (maxCount < count[0]){
+                maxCount = count[0];
             }
-            count = 0;
-        }
-
-        for (int x = 0; x < 5; x++){
-            for (int y = 0; y < 5; y++){
-                if (boardArray[y][x] == 2){
-                    count++;
-                }
+            if (maxCount < count[1]){
+                maxCount = count[1];
             }
-            if (maxCount < count){
-                maxCount = count;
-            }
-            count = 0;
+            count = new int[]{0, 0};
         }
 
         if (id == 2){
@@ -95,12 +90,12 @@ public class AI {
             return calculateHeuristicValue(id, board);
         }
 
-        ArrayList<Move> availableMoves;
+        List<Move> availableMoves;
         int best;
 
         if (max) {
             availableMoves = getAvailableMoves(id, board);
-            best = -4;
+            best = -1000;
 
             for (Move availableMove : availableMoves) {
                 Board testBoard = new Board(generateTestBoardArray(board));
@@ -113,7 +108,7 @@ public class AI {
             }
         }else{
             availableMoves = getAvailableMoves(-id + 3, board);
-            best = 4;
+            best = 1000;
 
             for (Move availableMove : availableMoves) {
                 Board testBoard = new Board(generateTestBoardArray(board));
@@ -129,7 +124,7 @@ public class AI {
     }
 
     public Move generateNextMove(int id, Board board) {
-        ArrayList<Move> availableMoves = getAvailableMoves(id, board);
+        List<Move> availableMoves = getAvailableMoves(id, board);
 
         System.out.println();
 
@@ -140,7 +135,7 @@ public class AI {
             Board testBoard = new Board(generateTestBoardArray(board));
             testBoard.applyMove(availableMoves.get(i));
 
-            int moveValue = minimax(testBoard, id, 10, false, -4, 4);
+            int moveValue = minimax(testBoard, id, 10, false, -1000, 1000);
 
             System.out.println("Found score: " + moveValue + " for move: (" + availableMoves.get(i).startPos.x + "|" + availableMoves.get(i).startPos.y + ") -> (" + availableMoves.get(i).endPos.x + "|" + availableMoves.get(i).endPos.y + ")");
 
