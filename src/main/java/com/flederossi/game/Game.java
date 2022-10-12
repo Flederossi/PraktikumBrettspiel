@@ -40,7 +40,7 @@ public class Game {
         Move move;
 
         if (this.players[this.currentPlayer - 1] instanceof AI) {
-            this.ui.update(this.board, "Berechnung...");
+            this.ui.update(this.board, "Berechnung...", null);
             move = ((AI) this.players[this.currentPlayer - 1]).generateNextMove(this.currentPlayer, this.board);
         } else {
             move = ((Player) this.players[this.currentPlayer - 1]).generateNextMove(clickX, clickY);
@@ -60,9 +60,10 @@ public class Game {
 
     void updateUI() {
         if (this.players[this.currentPlayer - 1] instanceof AI) {
-            this.ui.update(this.board, convertIDToPlayer(this.currentPlayer) + " ist am Zug (Klicken)");
+            this.ui.update(this.board, convertIDToPlayer(this.currentPlayer) + " ist am Zug (Klicken)", null);
         } else {
-            this.ui.update(this.board, convertIDToPlayer(this.currentPlayer) + " ist am Zug");
+            Player player = (Player)(this.players[this.currentPlayer - 1]);
+            this.ui.update(this.board, convertIDToPlayer(this.currentPlayer) + " ist am Zug", player.firstClick ? new Coordinate(player.firstX, player.firstY) : null);
         }
     }
 
@@ -77,13 +78,13 @@ public class Game {
             updateUI();
 
             if (res == -1) {
-                this.ui.update(this.board, "Zug ungültig");
+                this.ui.update(this.board, "Zug ungültig", null);
             }
 
             this.winLogic.reloadPosBlack(this.board.getBoard());
             int won = this.winLogic.checkWon(this.board.getBoard());
             if (won > 0) {
-                this.ui.update(this.board, convertIDToPlayer(won) + " hat gewonnen (Klicken)");
+                this.ui.update(this.board, convertIDToPlayer(won) + " hat gewonnen (Klicken)", null);
                 this.gameEnded = true;
             }
         } else {

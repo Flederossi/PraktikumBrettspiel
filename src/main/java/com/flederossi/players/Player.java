@@ -5,7 +5,7 @@ import com.flederossi.game.Move;
 
 public class Player {
     public int firstX, firstY;
-    private boolean firstClick;
+    public boolean firstClick;
 
     public Player() {
         this.firstClick = false;

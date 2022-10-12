@@ -2,7 +2,6 @@ package com.flederossi.players;
 
 import com.flederossi.game.*;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -18,9 +17,9 @@ public class AI {
                 currentPos = new Coordinate(x, y);
                 checkPos = new Coordinate[]{new Coordinate(x, y - 1), new Coordinate(x, y + 1), new Coordinate(x - 1, y), new Coordinate(x + 1, y)};
 
-                for (int i = 0; i < 4; i++){
+                for (int i = 0; i < 4; i++) {
                     checkMove = new Move(currentPos, checkPos[i]);
-                    if (board.checkLegalMove(checkMove, id)){
+                    if (board.checkLegalMove(checkMove, id)) {
                         availableMoves.add(checkMove);
                     }
                 }
@@ -62,7 +61,7 @@ public class AI {
         return heuristicValue;
     }
 
-    private int maximum(int id, Board board, int alpha, int beta, int depth){
+    private int maximum(int id, Board board, int alpha, int beta, int depth) {
         List<Move> availableMoves = getAvailableMoves(id, board);
         int best = -1000;
 
@@ -78,7 +77,7 @@ public class AI {
         return best;
     }
 
-    private int minimum(int id, Board board, int alpha, int beta, int depth){
+    private int minimum(int id, Board board, int alpha, int beta, int depth) {
         List<Move> availableMoves = getAvailableMoves(-id + 3, board);
         int best = 1000;
 
@@ -97,7 +96,7 @@ public class AI {
     private int minimax(Board board, int id, int depth, boolean max, int alpha, int beta) {
         // Check terminating state of the recursion
         int res = new WinLogic(board.getBoard()).checkWon(board.getBoard());
-        if (res != 0){
+        if (res != 0) {
             return res == id ? 3 : -3;
         }
         if (depth < 1) {

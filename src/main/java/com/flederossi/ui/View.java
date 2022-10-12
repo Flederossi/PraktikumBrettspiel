@@ -1,6 +1,7 @@
 package com.flederossi.ui;
 
 import com.flederossi.game.Board;
+import com.flederossi.game.Coordinate;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.MouseListener;
 import org.eclipse.swt.graphics.Color;
@@ -46,11 +47,15 @@ public class View {
         this.status.setFont(new Font(this.status.getDisplay(), new FontData("Calibri", 12, SWT.BOLD)));
     }
 
-    public void update(Board board, String info) {
+    public void update(Board board, String info, Coordinate firstClick) {
         this.view.addPaintListener(paintEvent -> {
             for (int y = 0; y < 5; y++) {
                 for (int x = 0; x < 5; x++) {
-                    paintEvent.gc.setBackground(this.colors[board.getBoard()[y][x]]);
+                    if (firstClick != null && firstClick.x == x && firstClick.y == y){
+                        paintEvent.gc.setBackground(this.display.getSystemColor(SWT.COLOR_RED));
+                    }else {
+                        paintEvent.gc.setBackground(this.colors[board.getBoard()[y][x]]);
+                    }
                     paintEvent.gc.setForeground(this.colors[2]);
                     int size = View.size;
                     int offsetX = View.offsetX;
