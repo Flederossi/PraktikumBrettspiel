@@ -7,8 +7,6 @@ import java.util.Arrays;
 import java.util.List;
 
 public class AI {
-    private Move nextMove;
-
     private List<Move> getAvailableMoves(int id, Board board) {
         List<Move> availableMoves = new ArrayList<>();
         Coordinate currentPos;
@@ -33,7 +31,7 @@ public class AI {
     private int[][] generateTestBoardArray(Board board) {
         int[][] testBoardArray = new int[5][5];
         for (int y = 0; y < 5; y++) {
-            System.arraycopy(board.board[y], 0, testBoardArray[y], 0, 5);
+            System.arraycopy(board.getBoard()[y], 0, testBoardArray[y], 0, 5);
         }
         return testBoardArray;
     }

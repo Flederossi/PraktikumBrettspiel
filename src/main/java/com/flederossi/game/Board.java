@@ -1,7 +1,7 @@
 package com.flederossi.game;
 
 public class Board {
-    public int[][] board;
+    private int[][] board;
 
     public Board(int[][] boardInit) {
         this.board = boardInit;
