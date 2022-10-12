@@ -41,7 +41,8 @@ public class Game {
 
         if (this.players[this.currentPlayer - 1] instanceof AI) {
             this.ui.update(this.board, "Berechnung...", null);
-            move = ((AI) this.players[this.currentPlayer - 1]).generateNextMove(this.currentPlayer, this.board);
+
+            move = ((AI) players[currentPlayer - 1]).generateNextMove(currentPlayer, board);
         } else {
             move = ((Player) this.players[this.currentPlayer - 1]).generateNextMove(clickX, clickY);
         }
@@ -62,7 +63,7 @@ public class Game {
         if (this.players[this.currentPlayer - 1] instanceof AI) {
             this.ui.update(this.board, convertIDToPlayer(this.currentPlayer) + " ist am Zug (Klicken)", null);
         } else {
-            Player player = (Player)(this.players[this.currentPlayer - 1]);
+            Player player = (Player) (this.players[this.currentPlayer - 1]);
             this.ui.update(this.board, convertIDToPlayer(this.currentPlayer) + " ist am Zug", player.firstClick ? new Coordinate(player.firstX, player.firstY) : null);
         }
     }

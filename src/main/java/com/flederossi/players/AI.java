@@ -7,6 +7,8 @@ import java.util.Arrays;
 import java.util.List;
 
 public class AI {
+    private Move nextMove;
+
     private List<Move> getAvailableMoves(int id, Board board) {
         List<Move> availableMoves = new ArrayList<>();
         Coordinate currentPos;

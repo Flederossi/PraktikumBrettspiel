@@ -51,9 +51,9 @@ public class View {
         this.view.addPaintListener(paintEvent -> {
             for (int y = 0; y < 5; y++) {
                 for (int x = 0; x < 5; x++) {
-                    if (firstClick != null && firstClick.x == x && firstClick.y == y){
+                    if (firstClick != null && firstClick.x == x && firstClick.y == y) {
                         paintEvent.gc.setBackground(this.display.getSystemColor(SWT.COLOR_RED));
-                    }else {
+                    } else {
                         paintEvent.gc.setBackground(this.colors[board.getBoard()[y][x]]);
                     }
                     paintEvent.gc.setForeground(this.colors[2]);
