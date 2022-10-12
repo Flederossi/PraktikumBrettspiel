@@ -41,7 +41,6 @@ public class Game {
 
         if (this.players[this.currentPlayer - 1] instanceof AI) {
             this.ui.update(this.board, "Berechnung...", null);
-
             move = ((AI) players[currentPlayer - 1]).generateNextMove(currentPlayer, board);
         } else {
             move = ((Player) this.players[this.currentPlayer - 1]).generateNextMove(clickX, clickY);
@@ -71,8 +70,8 @@ public class Game {
     // Event when mouse is clicked (main game logic)
     protected void onMouseEvent(MouseEvent mouseEvent) {
         if (!this.gameEnded) {
-            int clickX = (int) Math.ceil((float) ((mouseEvent.x - this.ui.getDisplayData()[1]) / this.ui.getDisplayData()[0]));
-            int clickY = (int) Math.ceil((float) ((mouseEvent.y - this.ui.getDisplayData()[2]) / this.ui.getDisplayData()[0]));
+            int clickX = (int) Math.floor((float) ((mouseEvent.x - this.ui.getDisplayData()[1]) / this.ui.getDisplayData()[0]));
+            int clickY = (int) Math.floor((float) ((mouseEvent.y - this.ui.getDisplayData()[2]) / this.ui.getDisplayData()[0]));
 
             int res = makeChangesForRound(clickX, clickY);
 

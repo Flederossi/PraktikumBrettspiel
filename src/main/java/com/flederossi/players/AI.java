@@ -134,6 +134,9 @@ public class AI {
                 bestValue = moveValue;
                 bestMove = availableMoves.get(i);
             }
+            if (moveValue == 3){
+                break;
+            }
         }
 
         return bestMove;
