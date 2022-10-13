@@ -3,6 +3,7 @@ import com.flederossi.game.Coordinate;
 import com.flederossi.game.Move;
 import org.junit.jupiter.params.ParameterizedTest;
 
+import static com.flederossi.game.Game.checkLegalMove;
 import static org.junit.jupiter.params.provider.Arguments.arguments;
 
 import org.junit.jupiter.params.provider.Arguments;
@@ -31,7 +32,7 @@ public class BoardLogicTest {
     @MethodSource("testCases")
     public void testLegalMoves(int[][] board, Move move, int player, boolean expected) {
         this.board = new Board(board);
-        assertEquals(expected, this.board.checkLegalMove(move, player));
+        assertEquals(expected, checkLegalMove(this.board, move, player));
     }
 
     private static Stream<Arguments> testCases() {

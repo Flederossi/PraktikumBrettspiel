@@ -6,6 +6,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import static com.flederossi.game.Game.applyMove;
+import static com.flederossi.game.Game.checkLegalMove;
+
 public class AI {
     private List<Move> getAvailableMoves(int id, Board board) {
         List<Move> availableMoves = new ArrayList<>();
@@ -19,7 +22,7 @@ public class AI {
 
                 for (int i = 0; i < 4; i++) {
                     checkMove = new Move(currentPos, checkPos[i]);
-                    if (board.checkLegalMove(checkMove, id)) {
+                    if (checkLegalMove(board, checkMove, id)) {
                         availableMoves.add(checkMove);
                     }
                 }
@@ -39,7 +42,7 @@ public class AI {
     private int calculateHeuristicValue(int id, Board board) {
         int heuristicValue;
 
-        int maxCount = 0;
+        int maxCount = -1;
         int[] count = {0, 0};
         int[][] boardArray = board.getBoard();
 
@@ -57,7 +60,7 @@ public class AI {
             maxCount = calculatedValues[2];
             count = new int[]{0, 0};
         }
-        heuristicValue = (maxCount - 1) * (-2 * id + 3); // -1 if id == 2 | 1 if id == 1
+        heuristicValue = maxCount * (-2 * id + 3); // -1 if id == 2 | 1 if id == 1
         return heuristicValue;
     }
 
@@ -67,7 +70,7 @@ public class AI {
 
         for (Move availableMove : availableMoves) {
             Board testBoard = new Board(generateTestBoardArray(board));
-            testBoard.applyMove(availableMove);
+            testBoard = applyMove(testBoard, availableMove);
             best = Math.max(best, minimax(testBoard, id, depth - 1, false, alpha, beta));
             alpha = Math.max(alpha, best);
             if (best >= beta) {
@@ -83,7 +86,7 @@ public class AI {
 
         for (Move availableMove : availableMoves) {
             Board testBoard = new Board(generateTestBoardArray(board));
-            testBoard.applyMove(availableMove);
+            testBoard = applyMove(testBoard, availableMove);
             best = Math.min(best, minimax(testBoard, id, depth - 1, true, alpha, beta));
             beta = Math.min(beta, best);
             if (best <= alpha) {
@@ -123,7 +126,7 @@ public class AI {
 
         for (int i = 0; i < availableMoves.size(); i++) {
             Board testBoard = new Board(generateTestBoardArray(board));
-            testBoard.applyMove(availableMoves.get(i));
+            testBoard = applyMove(testBoard, availableMoves.get(i));
 
             // Change the initial depth value to control the speed and accuracy of the algorithm
             int moveValue = minimax(testBoard, id, 10, false, -1000, 1000);

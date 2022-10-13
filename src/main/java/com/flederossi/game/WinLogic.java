@@ -8,14 +8,14 @@ public class WinLogic {
     }
 
     public void reloadPosBlack(int[][] board) {
-        this.posBlack = new int[2][3];
+        posBlack = new int[2][3];
 
         int i = 0;
         for (int y = 0; y < 5; y++) {
             for (int x = 0; x < 5; x++) {
                 if (board[y][x] == 2 && i <= 2) {
-                    this.posBlack[0][i] = x;
-                    this.posBlack[1][i] = y;
+                    posBlack[0][i] = x;
+                    posBlack[1][i] = y;
                     i++;
                 }
             }
@@ -42,7 +42,7 @@ public class WinLogic {
         int res = 1;
 
         // Check win white
-        if (checkOnlyContains(this.posBlack[0]) && checkOnlyContains(this.posBlack[1])) {
+        if (checkOnlyContains(posBlack[0]) && checkOnlyContains(posBlack[1])) {
             res = 0;
         }
 

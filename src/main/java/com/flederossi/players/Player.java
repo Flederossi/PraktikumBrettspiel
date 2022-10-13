@@ -8,21 +8,21 @@ public class Player {
     public boolean firstClick;
 
     public Player() {
-        this.firstClick = false;
+        firstClick = false;
     }
 
     public Move generateNextMove(int clickX, int clickY) {
         Move nextMove;
 
         if (firstClick) {
-            nextMove = new Move(new Coordinate(this.firstX, this.firstY), new Coordinate(clickX, clickY));
+            nextMove = new Move(new Coordinate(firstX, firstY), new Coordinate(clickX, clickY));
         } else {
-            this.firstX = clickX;
-            this.firstY = clickY;
+            firstX = clickX;
+            firstY = clickY;
             nextMove = null;
         }
 
-        this.firstClick = !this.firstClick;
+        firstClick = !firstClick;
 
         return nextMove;
     }

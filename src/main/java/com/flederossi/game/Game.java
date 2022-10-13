@@ -10,7 +10,7 @@ public class Game {
     protected final View ui;
     protected final WinLogic winLogic;
 
-    protected final Board board;
+    protected Board board;
 
     protected int currentPlayer;
     protected boolean gameEnded;
@@ -33,23 +33,23 @@ public class Game {
     }
 
     protected void switchCurrentPlayer() {
-        this.currentPlayer = this.currentPlayer == 1 ? 2 : 1;
+        currentPlayer = currentPlayer == 1 ? 2 : 1;
     }
 
     protected int makeChangesForRound(int clickX, int clickY) {
         Move move;
 
-        if (this.players[this.currentPlayer - 1] instanceof AI) {
-            this.ui.update(this.board, "Berechnung...", null);
+        if (players[currentPlayer - 1] instanceof AI) {
+            ui.update(board, "Berechnung...", null);
             move = ((AI) players[currentPlayer - 1]).generateNextMove(currentPlayer, board);
         } else {
-            move = ((Player) this.players[this.currentPlayer - 1]).generateNextMove(clickX, clickY);
+            move = ((Player) players[currentPlayer - 1]).generateNextMove(clickX, clickY);
         }
 
         if (move != null) {
-            if (this.board.checkLegalMove(move, this.currentPlayer)) {
-                this.board.applyMove(move);
-                this.switchCurrentPlayer();
+            if (checkLegalMove(board, move, currentPlayer)) {
+                board = applyMove(board, move);
+                switchCurrentPlayer();
             } else {
                 return -1;
             }
@@ -58,34 +58,54 @@ public class Game {
         return 0;
     }
 
+    private static boolean isOrthogonal(Move move){
+        return Math.abs(move.endPos.x - move.startPos.x) + Math.abs(move.endPos.y - move.startPos.y) == 1;
+        //return move.endPos.x - move.startPos.x == 0 ^ move.endPos.y - move.startPos.y == 0;
+    }
+
+    private static boolean isInside(Move move){
+        return move.endPos.x >= 0 && move.endPos.x <= 4 && move.endPos.y >= 0 && move.endPos.y <= 4;
+    }
+
+    public static boolean checkLegalMove(Board board, Move move, int player) {
+        return isInside(move) && board.getPlayer(move.startPos) == player && isOrthogonal(move) && board.getPlayer(move.endPos) == player - 1;
+    }
+
+    public static Board applyMove(Board board, Move move){
+        Board appliedBoard = new Board(board.getBoard());
+        appliedBoard = appliedBoard.setPlayer(move.endPos, appliedBoard.getPlayer(move.startPos));
+        appliedBoard = appliedBoard.setPlayer(move.startPos, 0);
+        return appliedBoard;
+    }
+
     void updateUI() {
-        if (this.players[this.currentPlayer - 1] instanceof AI) {
-            this.ui.update(this.board, convertIDToPlayer(this.currentPlayer) + " ist am Zug (Klicken)", null);
+        if (players[currentPlayer - 1] instanceof AI) {
+            ui.update(board, convertIDToPlayer(currentPlayer) + " ist am Zug (Klicken)", null);
         } else {
-            Player player = (Player) (this.players[this.currentPlayer - 1]);
-            this.ui.update(this.board, convertIDToPlayer(this.currentPlayer) + " ist am Zug", player.firstClick ? new Coordinate(player.firstX, player.firstY) : null);
+            Player player = (Player) (players[currentPlayer - 1]);
+            ui.update(board, convertIDToPlayer(currentPlayer) + " ist am Zug", player.firstClick ? new Coordinate(player.firstX, player.firstY) : null);
         }
     }
 
     // Event when mouse is clicked (main game logic)
     protected void onMouseEvent(MouseEvent mouseEvent) {
-        if (!this.gameEnded) {
-            int clickX = (int) Math.floor((float) ((mouseEvent.x - this.ui.getDisplayData()[1]) / this.ui.getDisplayData()[0]));
-            int clickY = (int) Math.floor((float) ((mouseEvent.y - this.ui.getDisplayData()[2]) / this.ui.getDisplayData()[0]));
+        if (!gameEnded) {
+            int clickX = (int) Math.floor((float) ((mouseEvent.x - ui.getDisplayData()[1]) / ui.getDisplayData()[0]));
+            int clickY = (int) Math.floor((float) ((mouseEvent.y - ui.getDisplayData()[2]) / ui.getDisplayData()[0]));
 
             int res = makeChangesForRound(clickX, clickY);
 
             updateUI();
 
             if (res == -1) {
-                this.ui.update(this.board, "Zug ungültig", null);
+                ui.update(board, "Zug ungültig", null);
             }
 
-            this.winLogic.reloadPosBlack(this.board.getBoard());
-            int won = this.winLogic.checkWon(this.board.getBoard());
+            winLogic.reloadPosBlack(board.getBoard());
+            int won = winLogic.checkWon(board.getBoard());
             if (won > 0) {
-                this.ui.update(this.board, convertIDToPlayer(won) + " hat gewonnen (Klicken)", null);
-                this.gameEnded = true;
+                ui.update(board, convertIDToPlayer(won) + " hat gewonnen (Klicken)", null);
+                gameEnded = true;
             }
         } else {
             restart();
@@ -110,21 +130,21 @@ public class Game {
             }
         };
 
-        this.ui.addEvent(ml);
+        ui.addEvent(ml);
         updateUI();
-        this.ui.start();
+        ui.start();
     }
 
     public void restart() {
-        this.board.setBoard(new int[][]{
+        board.setBoard(new int[][]{
                 {1, 1, 1, 1, 2},
                 {1, 1, 1, 1, 1},
                 {1, 1, 2, 1, 1},
                 {1, 1, 1, 1, 1},
                 {2, 1, 1, 1, 1},
         });
-        this.currentPlayer = 2;
-        this.gameEnded = false;
+        currentPlayer = 2;
+        gameEnded = false;
         updateUI();
     }
 }

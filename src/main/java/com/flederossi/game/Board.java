@@ -1,40 +1,36 @@
 package com.flederossi.game;
 
-public class Board {
-    private int[][] board;
+import java.util.Arrays;
+
+public final class Board {
+    // TODO Make board one dimensional
+    private final int[][] board;
 
     public Board(int[][] boardInit) {
-        this.board = boardInit;
-    }
+        board = new int[boardInit.length][];
 
-    private int getPlayerTargetField(Move move) {
-        return this.board[move.endPos.y][move.endPos.x];
-    }
-
-    public boolean checkLegalMove(Move move, int player) {
-        if (move.endPos.x >= 0 && move.endPos.x <= 4 && move.endPos.y >= 0 && move.endPos.y <= 4) {
-            // Check if move is diagonal
-            if (move.endPos.x - move.startPos.x == 0 ^ move.endPos.y - move.startPos.y == 0) {
-                // Check if move is from the right player to the right field
-                return this.getPlayerTargetField(move) == player - 1 && (this.board[move.startPos.y][move.startPos.x] == player) && Math.abs(move.endPos.x - move.startPos.x) < 2 && Math.abs(move.endPos.y - move.startPos.y) < 2;
-            } else {
-                return false;
-            }
-        } else {
-            return false;
+        for (int i = 0; i < boardInit.length; i++){
+            board[i] = Arrays.copyOf(boardInit[i], boardInit[i].length);
         }
     }
 
-    public void applyMove(Move move) {
-        this.board[move.endPos.y][move.endPos.x] = this.board[move.startPos.y][move.startPos.x];
-        this.board[move.startPos.y][move.startPos.x] = 0;
+    public int getPlayer(Coordinate coordinate){
+        return board[coordinate.y][coordinate.x];
     }
 
-    public void setBoard(int[][] newBoard) {
-        this.board = newBoard;
+    public Board setPlayer(Coordinate coordinate, int player){
+        Board boardCopy = new Board(board);
+        boardCopy.board[coordinate.y][coordinate.x] = player;
+        return boardCopy;
     }
 
-    public int[][] getBoard() {
-        return this.board;
+    public int[][] getBoard(){
+        return board;
+    }
+
+    public void setBoard(int[][] boardInit){
+        for (int i = 0; i < boardInit.length; i++){
+            board[i] = Arrays.copyOf(boardInit[i], boardInit[i].length);
+        }
     }
 }
