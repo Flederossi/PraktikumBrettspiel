@@ -25,38 +25,38 @@ public class View {
     private final Color[] colors;
 
     public View() {
-        this.display = new Display();
-        this.shell = new Shell(display, SWT.CLOSE | SWT.TITLE);
+        display = new Display();
+        shell = new Shell(display, SWT.CLOSE | SWT.TITLE);
 
-        this.shell.setText("Brettspiel");
-        this.shell.setSize((int) (size * 5.25 + offsetX * 2.5), (int) (size * 5.25 + offsetY * 6.5));
+        shell.setText("Brettspiel");
+        shell.setSize((int) (size * 5.25 + offsetX * 2.5), (int) (size * 5.25 + offsetY * 6.5));
 
         GridLayout layout = new GridLayout(1, false);
         layout.marginHeight = layout.marginWidth = 0;
 
-        this.shell.setLayout(layout);
+        shell.setLayout(layout);
 
-        this.colors = new Color[]{display.getSystemColor(SWT.COLOR_GRAY), display.getSystemColor(SWT.COLOR_WHITE), display.getSystemColor(SWT.COLOR_BLACK)};
+        colors = new Color[]{display.getSystemColor(SWT.COLOR_GRAY), display.getSystemColor(SWT.COLOR_WHITE), display.getSystemColor(SWT.COLOR_BLACK)};
 
-        this.view = new Canvas(this.shell, SWT.NONE);
-        this.view.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+        view = new Canvas(shell, SWT.NONE);
+        view.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 
-        this.status = new Label(this.shell, SWT.NONE);
-        this.status.setAlignment(SWT.CENTER);
-        this.status.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false));
-        this.status.setFont(new Font(this.status.getDisplay(), new FontData("Calibri", 12, SWT.BOLD)));
+        status = new Label(shell, SWT.NONE);
+        status.setAlignment(SWT.CENTER);
+        status.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false));
+        status.setFont(new Font(status.getDisplay(), new FontData("Calibri", 12, SWT.BOLD)));
     }
 
     public void update(Board board, String info, Coordinate firstClick) {
-        this.view.addPaintListener(paintEvent -> {
+        view.addPaintListener(paintEvent -> {
             for (int y = 0; y < 5; y++) {
                 for (int x = 0; x < 5; x++) {
                     if (firstClick != null && firstClick.x == x && firstClick.y == y) {
-                        paintEvent.gc.setBackground(this.display.getSystemColor(SWT.COLOR_RED));
+                        paintEvent.gc.setBackground(display.getSystemColor(SWT.COLOR_RED));
                     } else {
-                        paintEvent.gc.setBackground(this.colors[board.getBoard()[y][x]]);
+                        paintEvent.gc.setBackground(colors[board.getBoard()[y][x]]);
                     }
-                    paintEvent.gc.setForeground(this.colors[2]);
+                    paintEvent.gc.setForeground(colors[2]);
                     int size = View.size;
                     int offsetX = View.offsetX;
                     int offsetY = View.offsetY;
@@ -65,25 +65,25 @@ public class View {
                 }
             }
         });
-        this.view.redraw();
-        this.view.update();
-        this.status.setText(info);
+        view.redraw();
+        view.update();
+        status.setText(info);
     }
 
     public void addEvent(MouseListener ml) {
-        this.view.addMouseListener(ml);
+        view.addMouseListener(ml);
     }
 
     public void start() {
-        this.shell.open();
+        shell.open();
 
-        while (!this.shell.isDisposed()) {
-            if (!this.display.readAndDispatch()) {
-                this.display.sleep();
+        while (!shell.isDisposed()) {
+            if (!display.readAndDispatch()) {
+                display.sleep();
             }
         }
 
-        this.display.dispose();
+        display.dispose();
     }
 
     public int[] getDisplayData() {
