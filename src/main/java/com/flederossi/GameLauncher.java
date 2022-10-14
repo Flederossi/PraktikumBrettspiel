@@ -18,9 +18,7 @@ public class GameLauncher {
         Board model = new Board(boardInit);
 
         View view = new View();
-
-        AI[] ais = new AI[]{null, new AI()};
-        Game game = new Game(model, ais);
+        Game game = new Game(model);
 
         view.setGame(game);
         view.start();

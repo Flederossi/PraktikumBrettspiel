@@ -6,16 +6,16 @@ public class Game {
     private final WinLogic winLogic;
 
     private Board board;
-    private final AI[] ais;
+    private AI[] ais;
 
     private int currentPlayer;
     private boolean gameEnded;
 
     private String info;
 
-    public Game(Board board, AI[] ais) {
+    public Game(Board board) {
         this.board = board;
-        this.ais = ais;
+        this.ais = new AI[]{null, null};
         this.winLogic = new WinLogic(board);
         this.currentPlayer = 2;
         this.gameEnded = false;
@@ -89,6 +89,10 @@ public class Game {
 
     public Board getBoard(){
         return board;
+    }
+
+    public void setGameMode(AI[] ais){
+        this.ais = ais;
     }
 
     public void restart() {

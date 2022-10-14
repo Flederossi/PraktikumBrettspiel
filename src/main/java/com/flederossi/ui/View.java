@@ -4,9 +4,12 @@ import com.flederossi.game.Board;
 import com.flederossi.game.Coordinate;
 import com.flederossi.game.Game;
 import com.flederossi.game.Move;
+import com.flederossi.players.AI;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.MouseListener;
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.FontData;
@@ -27,6 +30,9 @@ public class View {
 
     private int firstX = -1, firstY = -1;
     private boolean firstClick = false;
+
+    private final String[] gamemodeLabels = {"Spieler\tSpieler", "AI\tSpieler", "Spieler\tAI"};
+    private final AI[][] gamemodeAIs = {{null, null}, {null, new AI()}, {new AI(), null}};
 
     public View() {
         display = new Display();
@@ -87,14 +93,50 @@ public class View {
         Menu gameSubMenu = new Menu(shell, SWT.DROP_DOWN);
         gameMenuLBL.setMenu(gameSubMenu);
 
+        MenuItem gamemodeItem = new MenuItem(gameSubMenu, SWT.CASCADE);
+        Menu gamemodeSubMenu = new Menu(gameSubMenu);
+        gamemodeItem.setMenu(gamemodeSubMenu);
+
+        MenuItem gamemodeInfoItem = new MenuItem(gamemodeSubMenu, SWT.NONE);
+        gamemodeInfoItem.setText("Schwarz\tWeiß");
+        gamemodeInfoItem.setEnabled(false);
+
+        for (int i = 0; i < gamemodeLabels.length; i++){
+            MenuItem gamemodeSubItem = new MenuItem(gamemodeSubMenu, SWT.RADIO);
+            gamemodeSubItem.setText(gamemodeLabels[i]);
+            if (i == 0){
+                gamemodeSubItem.setSelection(true);
+            }
+            int finalI = i;
+            gamemodeSubItem.addSelectionListener(new SelectionAdapter() {
+                @Override
+                public void widgetSelected(SelectionEvent selectionEvent) {
+                    if (gamemodeSubItem.getSelection()){
+                        game.setGameMode(gamemodeAIs[finalI]);
+                        restart();
+                    }
+                }
+            });
+        }
+
+        gamemodeItem.setText("Spielmodus");
+
         MenuItem restartItem = new MenuItem(gameSubMenu, SWT.PUSH);
-        restartItem.addListener(SWT.Selection, event -> {
-            firstX = firstY = -1;
-            firstClick = false;
-            game.restart();
-            update(game.getBoard(), game.getInfo());
-        });
-        restartItem.setText("Neustart");
+        restartItem.addListener(SWT.Selection, event -> restart());
+        restartItem.setText("Neustart\tStrg + R");
+        restartItem.setAccelerator(SWT.MOD1 + 'R');
+
+        MenuItem exitItem = new MenuItem(gameSubMenu, SWT.PUSH);
+        exitItem.addListener(SWT.Selection, event -> System.exit(0));
+        exitItem.setText("Schließen\tStrg + Q");
+        exitItem.setAccelerator(SWT.MOD1 + 'Q');
+    }
+
+    private void restart(){
+        firstX = firstY = -1;
+        firstClick = false;
+        game.restart();
+        update(game.getBoard(), game.getInfo());
     }
 
     private void update(Board board, String info) {
