@@ -3,17 +3,17 @@ package com.flederossi.game;
 public class WinLogic {
     private int[][] posBlack;
 
-    public WinLogic(int[][] board) {
+    public WinLogic(Board board) {
         reloadPosBlack(board);
     }
 
-    public void reloadPosBlack(int[][] board) {
+    public void reloadPosBlack(Board board) {
         posBlack = new int[2][3];
 
         int i = 0;
         for (int y = 0; y < 5; y++) {
             for (int x = 0; x < 5; x++) {
-                if (board[y][x] == 2 && i <= 2) {
+                if (board.getPlayer(x, y) == 2 && i <= 2) {
                     posBlack[0][i] = x;
                     posBlack[1][i] = y;
                     i++;
@@ -34,12 +34,14 @@ public class WinLogic {
         return !res;
     }
 
-    private boolean checkNeighbourFieldsEmpty(int x, int y, int[][] board) {
-        return (y <= 0 || board[y - 1][x] == 0 || board[y - 1][x] == 2) && (y >= 4 || board[y + 1][x] == 0 || board[y + 1][x] == 2) && (x <= 0 || board[y][x - 1] == 0 || board[y][x - 1] == 2) && (x >= 4 || board[y][x + 1] == 0 || board[y][x + 1] == 2);
+    private boolean checkNeighbourFieldsEmpty(int x, int y, Board board) {
+        return (y <= 0 || board.getPlayer(x, y-1) == 0 || board.getPlayer(x, y-1) == 2) && (y >= 4 || board.getPlayer(x, y+1) == 0 || board.getPlayer(x, y+1) == 2) && (x <= 0 || board.getPlayer(x-1, y) == 0 || board.getPlayer(x-1, y) == 2) && (x >= 4 || board.getPlayer(x+1, y) == 0 || board.getPlayer(x+1, y) == 2);
     }
 
-    public int checkWon(int[][] board) {
+    public int checkWon(Board board) {
         int res = 1;
+
+        //reloadPosBlack(board);
 
         // Check win white
         if (checkOnlyContains(posBlack[0]) && checkOnlyContains(posBlack[1])) {
@@ -51,7 +53,7 @@ public class WinLogic {
             res = 2;
             for (int y = 0; y < 5; y++) {
                 for (int x = 0; x < 5; x++) {
-                    if (board[y][x] == 2) {
+                    if (board.getPlayer(x, y) == 2) {
                         if (!checkNeighbourFieldsEmpty(x, y, board)) {
                             res = 0;
                         }

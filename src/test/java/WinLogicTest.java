@@ -1,3 +1,4 @@
+import com.flederossi.game.Board;
 import com.flederossi.game.WinLogic;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -21,14 +22,14 @@ public class WinLogicTest {
                 {1, 1, 1, 1, 1},
                 {2, 1, 1, 1, 1},
         };
-        this.winLogic = new WinLogic(boardInit);
+        this.winLogic = new WinLogic(new Board(boardInit));
     }
 
     @ParameterizedTest
     @MethodSource("testCases")
     public void testPlayerWon(int[][] board, int expected) {
-        this.winLogic.reloadPosBlack(board);
-        assertEquals(expected, this.winLogic.checkWon(board));
+        this.winLogic.reloadPosBlack(new Board(board));
+        assertEquals(expected, this.winLogic.checkWon(new Board(board)));
     }
 
     private static Stream<Arguments> testCases() {

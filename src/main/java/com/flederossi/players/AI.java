@@ -31,27 +31,18 @@ public class AI {
         return availableMoves;
     }
 
-    private int[][] generateTestBoardArray(Board board) {
-        int[][] testBoardArray = new int[5][5];
-        for (int y = 0; y < 5; y++) {
-            System.arraycopy(board.getBoard()[y], 0, testBoardArray[y], 0, 5);
-        }
-        return testBoardArray;
-    }
-
     private int calculateHeuristicValue(int id, Board board) {
         int heuristicValue;
 
         int maxCount = -1;
         int[] count = {0, 0};
-        int[][] boardArray = board.getBoard();
 
         for (int i = 0; i < 5; i++) {
             for (int j = 0; j < 5; j++) {
-                if (boardArray[i][j] == 2) {
+                if (board.getPlayer(j, i) == 2) {
                     count[0]++;
                 }
-                if (boardArray[j][i] == 2) {
+                if (board.getPlayer(i, j) == 2) {
                     count[1]++;
                 }
             }
@@ -69,7 +60,7 @@ public class AI {
         int best = -1000;
 
         for (Move availableMove : availableMoves) {
-            Board testBoard = new Board(generateTestBoardArray(board));
+            Board testBoard = board;
             testBoard = applyMove(testBoard, availableMove);
             best = Math.max(best, minimax(testBoard, id, depth - 1, false, alpha, beta));
             alpha = Math.max(alpha, best);
@@ -85,7 +76,7 @@ public class AI {
         int best = 1000;
 
         for (Move availableMove : availableMoves) {
-            Board testBoard = new Board(generateTestBoardArray(board));
+            Board testBoard = board;
             testBoard = applyMove(testBoard, availableMove);
             best = Math.min(best, minimax(testBoard, id, depth - 1, true, alpha, beta));
             beta = Math.min(beta, best);
@@ -98,7 +89,7 @@ public class AI {
 
     private int minimax(Board board, int id, int depth, boolean max, int alpha, int beta) {
         // Check terminating state of the recursion (Player won || Reached depth)
-        int res = new WinLogic(board.getBoard()).checkWon(board.getBoard());
+        int res = new WinLogic(board).checkWon(board);
         if (res != 0) {
             return res == id ? 3 : -3;
         }
@@ -125,7 +116,7 @@ public class AI {
         Move bestMove = new Move(new Coordinate(0, 0), new Coordinate(0, 0));
 
         for (int i = 0; i < availableMoves.size(); i++) {
-            Board testBoard = new Board(generateTestBoardArray(board));
+            Board testBoard = board;
             testBoard = applyMove(testBoard, availableMoves.get(i));
 
             // Change the initial depth value to control the speed and accuracy of the algorithm

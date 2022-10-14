@@ -15,22 +15,16 @@ public final class Board {
     }
 
     public int getPlayer(Coordinate coordinate){
-        return board[coordinate.y][coordinate.x];
+        return getPlayer(coordinate.x, coordinate.y);
+    }
+
+    public int getPlayer(int x, int y){
+        return board[y][x];
     }
 
     public Board setPlayer(Coordinate coordinate, int player){
         Board boardCopy = new Board(board);
         boardCopy.board[coordinate.y][coordinate.x] = player;
         return boardCopy;
-    }
-
-    public int[][] getBoard(){
-        return board;
-    }
-
-    public void setBoard(int[][] boardInit){
-        for (int i = 0; i < boardInit.length; i++){
-            board[i] = Arrays.copyOf(boardInit[i], boardInit[i].length);
-        }
     }
 }

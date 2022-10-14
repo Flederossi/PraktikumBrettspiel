@@ -1,30 +1,28 @@
 package com.flederossi.game;
 
 import com.flederossi.players.AI;
-import com.flederossi.players.Player;
-import com.flederossi.ui.View;
-import org.eclipse.swt.events.MouseEvent;
-import org.eclipse.swt.events.MouseListener;
 
 public class Game {
-    protected final View ui;
-    protected final WinLogic winLogic;
+    private final WinLogic winLogic;
 
-    protected Board board;
+    private Board board;
+    private final AI[] ais;
 
-    protected int currentPlayer;
-    protected boolean gameEnded;
+    private int currentPlayer;
+    private boolean gameEnded;
 
-    protected Object[] players;
+    private String info;
 
-    public Game(Board board, View ui, Object[] players) {
+    public Game(Board board, AI[] ais) {
         this.board = board;
-        this.winLogic = new WinLogic(this.board.getBoard());
+        this.ais = ais;
+        this.winLogic = new WinLogic(board);
         this.currentPlayer = 2;
         this.gameEnded = false;
-        this.ui = ui;
 
-        this.players = players;
+        checkAIShouldMove();
+
+        this.info = convertIDToPlayer(currentPlayer) + " ist am Zug";
     }
 
     // Convert the int that represents the player to a string
@@ -34,28 +32,6 @@ public class Game {
 
     protected void switchCurrentPlayer() {
         currentPlayer = currentPlayer == 1 ? 2 : 1;
-    }
-
-    protected int makeChangesForRound(int clickX, int clickY) {
-        Move move;
-
-        if (players[currentPlayer - 1] instanceof AI) {
-            ui.update(board, "Berechnung...", null);
-            move = ((AI) players[currentPlayer - 1]).generateNextMove(currentPlayer, board);
-        } else {
-            move = ((Player) players[currentPlayer - 1]).generateNextMove(clickX, clickY);
-        }
-
-        if (move != null) {
-            if (checkLegalMove(board, move, currentPlayer)) {
-                board = applyMove(board, move);
-                switchCurrentPlayer();
-            } else {
-                return -1;
-            }
-        }
-
-        return 0;
     }
 
     private static boolean isOrthogonal(Move move){
@@ -72,71 +48,51 @@ public class Game {
     }
 
     public static Board applyMove(Board board, Move move){
-        Board appliedBoard = new Board(board.getBoard());
+        Board appliedBoard = board;
         appliedBoard = appliedBoard.setPlayer(move.endPos, appliedBoard.getPlayer(move.startPos));
         appliedBoard = appliedBoard.setPlayer(move.startPos, 0);
         return appliedBoard;
     }
 
-    void updateUI() {
-        if (players[currentPlayer - 1] instanceof AI) {
-            ui.update(board, convertIDToPlayer(currentPlayer) + " ist am Zug (Klicken)", null);
-        } else {
-            Player player = (Player) (players[currentPlayer - 1]);
-            ui.update(board, convertIDToPlayer(currentPlayer) + " ist am Zug", player.firstClick ? new Coordinate(player.firstX, player.firstY) : null);
+    private void checkAIShouldMove(){
+        if (ais[currentPlayer - 1] != null) {
+            board = applyMove(board, ais[currentPlayer - 1].generateNextMove(currentPlayer, board));
+            switchCurrentPlayer();
         }
     }
 
-    // Event when mouse is clicked (main game logic)
-    protected void onMouseEvent(MouseEvent mouseEvent) {
+    public void mouseEvent(Move move){
         if (!gameEnded) {
-            int clickX = (int) Math.floor((float) ((mouseEvent.x - ui.getDisplayData()[1]) / ui.getDisplayData()[0]));
-            int clickY = (int) Math.floor((float) ((mouseEvent.y - ui.getDisplayData()[2]) / ui.getDisplayData()[0]));
+            if (checkLegalMove(board, move, currentPlayer)) {
+                board = applyMove(board, move);
+                switchCurrentPlayer();
 
-            int res = makeChangesForRound(clickX, clickY);
+                checkAIShouldMove();
 
-            updateUI();
+                info = convertIDToPlayer(currentPlayer) + " ist am Zug";
 
-            if (res == -1) {
-                ui.update(board, "Zug ungültig", null);
+                winLogic.reloadPosBlack(board);
+                int won = winLogic.checkWon(board);
+                if (won > 0) {
+                    info = convertIDToPlayer(won) + " hat gewonnen";
+                    gameEnded = true;
+                }
+            }else{
+                info = "Zug ungültig";
             }
-
-            winLogic.reloadPosBlack(board.getBoard());
-            int won = winLogic.checkWon(board.getBoard());
-            if (won > 0) {
-                ui.update(board, convertIDToPlayer(won) + " hat gewonnen (Klicken)", null);
-                gameEnded = true;
-            }
-        } else {
-            restart();
         }
     }
 
-    public void start() {
-        MouseListener ml = new MouseListener() {
-            @Override
-            public void mouseDoubleClick(MouseEvent mouseEvent) {
+    public String getInfo(){
+        return info;
+    }
 
-            }
-
-            @Override
-            public void mouseDown(MouseEvent mouseEvent) {
-
-            }
-
-            @Override
-            public void mouseUp(MouseEvent mouseEvent) {
-                onMouseEvent(mouseEvent);
-            }
-        };
-
-        ui.addEvent(ml);
-        updateUI();
-        ui.start();
+    public Board getBoard(){
+        return board;
     }
 
     public void restart() {
-        board.setBoard(new int[][]{
+        board = new Board(new int[][]{
                 {1, 1, 1, 1, 2},
                 {1, 1, 1, 1, 1},
                 {1, 1, 2, 1, 1},
@@ -145,6 +101,6 @@ public class Game {
         });
         currentPlayer = 2;
         gameEnded = false;
-        updateUI();
+        checkAIShouldMove();
     }
 }
