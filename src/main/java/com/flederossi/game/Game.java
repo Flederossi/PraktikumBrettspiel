@@ -106,5 +106,6 @@ public class Game {
         currentPlayer = 2;
         gameEnded = false;
         checkAIShouldMove();
+        info = convertIDToPlayer(currentPlayer) + " ist am Zug";
     }
 }
